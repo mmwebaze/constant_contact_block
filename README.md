@@ -26,8 +26,11 @@ Once the settings 1 - 4 have been made, access authorization link
 site_baseurl/constant_contact_block/get_auth to give the app permission. An access token
 will be issued which will be saved as a session.
 
-## Still to do
+## Still to be done
 
 * access token info
 * support for saving email lists locally
 * better error handling
+* checkbox in config form for turning on/off sync
+* requests to be submitted to a queue worker and processed by cron
+* sending out campaigns using nodes that have been published (campaign subject = node title and campaign message = body field)

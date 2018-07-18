@@ -2,7 +2,6 @@
 
 namespace Drupal\constant_contact_block\Form;
 
-use Drupal\constant_contact_block\authentication\ConstantContactAuth2;
 use Drupal\constant_contact_block\items\Contact;
 use Drupal\constant_contact_block\items\EmailAddress;
 use Drupal\Core\Form\FormBase;
@@ -54,18 +53,21 @@ class ConstantContactForm extends FormBase{
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    //$cc = new ConstantContact('g2jnh338hrwqxtzkuhxzkrqt');
-    //$contacts = $cc->contactService->getContacts('4f2f5ecd-0156-412e-bffc-cf95b4ce7958');
+    $email = $form_state->getValue('employee_mail');
+    $selectedLists = $form_state->getValue('email_lists');
     $constantContactManger = \Drupal::service('constant_contact_block.manager_service');
     //$contactLists = $constantContactManger->getContactLists();
     //$contactLists = $constantContactManger->addContactList('Mitch');
-    //die();
-    $list1 = new \stdClass();
-    $list1->id = '1124339648';
-    $list2 = new \stdClass();
-    $list2->id = '1993809041';
-    $contact = new Contact('michael', 'mwebaze', '',
-      'ACTIVE', [new EmailAddress('testing.again@gmail.com')], [$list1, $list2]);
+
+    $lists = [];
+    foreach ($selectedLists as $selectedList){
+      $listObj = new \stdClass();
+      $listObj->id = $selectedList;
+      array_push($lists, $listObj);
+    }
+
+    $contact = new Contact('', '', '',
+      'ACTIVE', [new EmailAddress($email)], $lists);
     drupal_set_message(json_encode($contact));
 
     drupal_set_message($constantContactManger->addContact($contact));
