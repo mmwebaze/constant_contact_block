@@ -1,0 +1,7 @@
+constant_contact_block.constant_contant_config_form:
+  title: 'Constant Contant Settings'
+  route_name: constant_contact_block.constant_contant_config_form
+  description: 'constant contact settings'
+  parent: system.admin_config_system
+  weight: 99
+

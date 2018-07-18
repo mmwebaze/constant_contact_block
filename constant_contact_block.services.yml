@@ -1,0 +1,7 @@
+services:
+  constant_contact_block.authentication:
+    class: Drupal\constant_contact_block\services\AuthenticationService
+    arguments: ['@config.factory']
+  constant_contact_block.manager_service:
+    class: Drupal\constant_contact_block\services\ConstantContactManager
+    arguments: ['@http_client', '@config.factory', '@request_stack']

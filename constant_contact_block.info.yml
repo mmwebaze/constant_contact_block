@@ -1,0 +1,5 @@
+name: Constant Contact Block
+type: module
+description: Integrates Drupal 8 with Constant Contact
+core: 8.x
+package: Constant Contact
