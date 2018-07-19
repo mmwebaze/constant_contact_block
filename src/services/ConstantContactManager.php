@@ -9,6 +9,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ConstantContactManager implements ConstantContactInterface {
+  private $response;
   private $baseUrl;
   private $apiKey;
   private $token;
@@ -35,15 +36,7 @@ class ConstantContactManager implements ConstantContactInterface {
     $this->baseUrl = $this->configFactory->get('base_url');
     $this->apiKey = $this->configFactory->get('api_key');
   }
-  /*private function setAuthorizationToken($token){
-    $header = ['headers' => [
-      'Authorization' => 'Bearer ' .$token,
-      'Content-Type' => 'application/json',
-      'Accept' => 'application/json'
-    ]];
 
-    return $header;
-  }*/
   public function addContact($contact){
     $endPoint = 'contacts?api_key='.$this->apiKey;
     try{
@@ -53,12 +46,12 @@ class ConstantContactManager implements ConstantContactInterface {
           'body' => json_encode($contact),
           'headers' => $this->header['headers']
         ]);
-      $response->getBody()->getContents();
+      return $response->getBody()->getContents();
     }
     catch (RequestException $e) {
       // log error $e
       drupal_set_message($e->getMessage());
-      return;
+      return $this;
     }
   }
   public function getContacts(){
@@ -91,7 +84,7 @@ class ConstantContactManager implements ConstantContactInterface {
     $contactList = new ContactList($name, $status);
     $endPoint = 'lists?api_key='.$this->apiKey;
     try{
-      $response = $this->client->post( $this->baseUrl.$endPoint,
+      $this->response = $this->client->post( $this->baseUrl.$endPoint,
         [
           'debug' => TRUE,
           'body' => json_encode($contactList),
@@ -101,7 +94,7 @@ class ConstantContactManager implements ConstantContactInterface {
             'Accept' => 'application/json'
           ]
         ]);
-      return $response->getBody()->getContents();
+      return $this->response->getBody()->getContents();
     }
     catch (RequestException $e) {
       // log error $e

@@ -1,0 +1,63 @@
+<?php
+/**
+ * implements hook_schema
+ */
+function constant_contact_block_schema(){
+  $schema['constant_contact_lists'] = array(
+    'description' => 'Stores constant contact lists',
+    'fields' => array(
+      'id' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Unique ID for each contact list',
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Contact list name",
+      ),
+      'list_id' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "The uuid formatted unique identifier used to identify 
+        the list in the V3 API. Useful for migrating V2 API integrations to the V3 API.",
+      ),
+      'modified_date' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Time stamp indicating when the contact list was last modified, in ISO-8601 format",
+      ),
+      'status' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "The contact list status",
+      ),
+      'contact_count' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+        'size' => 'big',
+        'description' => 'The number of contacts in the list',
+      ),
+      'created_date' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Time stamp indicating when the contact list was created, in ISO-8601 format",
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}

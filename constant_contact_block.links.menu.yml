@@ -5,3 +5,17 @@ constant_contact_block.constant_contant_config_form:
   parent: system.admin_config_system
   weight: 99
 
+constant_contact_block.main_menu:
+  title: 'Constant Contact'
+  description: 'Manage Constant Contact lists.'
+  route_name: 'constant_contact_block.main_menu'
+  weight: -9
+  parent: 'system.admin'
+
+constant_contact_block.view_lists:
+  title: 'Contact Lists'
+  description: 'View Contact List details'
+  route_name: 'constant_contact_block.view_lists'
+  weight: 10
+  parent: 'constant_contact_block.main_menu'
+

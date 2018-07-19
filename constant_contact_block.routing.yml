@@ -15,7 +15,7 @@ constant_contact_block.constant_contact_controller_getCode:
     _controller: '\Drupal\constant_contact_block\Controller\ConstantContactController::getCode'
     _title: 'Get Code'
   requirements:
-    _permission: 'access content'
+    _permission: 'access administration pages'
 
 constant_contact_block.constant_contact_controller_getAuthorization:
   path: '/constant_contact_block/get_auth'
@@ -23,4 +23,20 @@ constant_contact_block.constant_contact_controller_getAuthorization:
     _controller: '\Drupal\constant_contact_block\Controller\ConstantContactController::getAuthorization'
     _title: 'Get Auth'
   requirements:
-    _permission: 'access content'
+    _permission: 'access administration pages'
+
+constant_contact_block.main_menu:
+  path: 'admin/constant_contact'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Constant Contact'
+  requirements:
+    _permission: 'access administration pages'
+
+constant_contact_block.view_lists:
+  path: 'admin/constant_contact/view'
+  defaults:
+    _controller: '\Drupal\constant_contact_block\Controller\ConstantContactController::getContactLists'
+    _title: 'Constant Contact Lists'
+  requirements:
+    _permission: 'access administration pages'

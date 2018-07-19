@@ -2,6 +2,7 @@
 
 namespace Drupal\constant_contact_block\Form;
 
+use Drupal\Console\Bootstrap\Drupal;
 use Drupal\constant_contact_block\items\Contact;
 use Drupal\constant_contact_block\items\EmailAddress;
 use Drupal\Core\Form\FormBase;
@@ -55,15 +56,20 @@ class ConstantContactForm extends FormBase{
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $email = $form_state->getValue('employee_mail');
     $selectedLists = $form_state->getValue('email_lists');
+    //print_r($selectedLists);die();
     $constantContactManger = \Drupal::service('constant_contact_block.manager_service');
     //$contactLists = $constantContactManger->getContactLists();
-    //$contactLists = $constantContactManger->addContactList('Mitch');
-
+    //$contactLists = $constantContactManger->addContactList('Open source');
+    /*$db = \Drupal::service('constant_contact_block.data_manager');
+    $db->addContactList($contactLists);*/
+    //drupal_set_message($contactLists);//die('created');
     $lists = [];
     foreach ($selectedLists as $selectedList){
-      $listObj = new \stdClass();
-      $listObj->id = $selectedList;
-      array_push($lists, $listObj);
+      if ($selectedList != 0){
+        $listObj = new \stdClass();
+        $listObj->id = $selectedList;
+        array_push($lists, $listObj);
+      }
     }
 
     $contact = new Contact('', '', '',
