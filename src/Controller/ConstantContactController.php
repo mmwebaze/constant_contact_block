@@ -5,6 +5,8 @@ namespace Drupal\constant_contact_block\Controller;
 use Drupal\constant_contact_block\authentication\ConstantContactAuth2;
 use Drupal\constant_contact_block\services\AuthenticationServiceInterface;
 use Drupal\constant_contact_block\services\ConstantContactDataInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -68,6 +70,16 @@ class ConstantContactController extends ControllerBase {
   public function getContactLists(){
 
     $lists = $this->constantContactDataService->getContactLists();
+    $operations['edit'] = [
+      'title' => $this->t('Edit'),
+      'weight' => 10,
+      //'url' => $this->ensureDestination($entity->toUrl('edit-form')),
+    ];
+    $operations['delete'] = [
+      'title' => $this->t('Delete'),
+      'weight' => 100,
+      //'url' => $this->ensureDestination($entity->toUrl('delete-form')),
+    ];
 
     $rows = array();
     foreach ($lists as $list){
@@ -75,8 +87,10 @@ class ConstantContactController extends ControllerBase {
         'id' => $list->id, 'name' => $list->name, 'list_id' => $list->list_id,
         'modified_date' => $list->modified_date, 'status' => $list->status,
         'contact_count' => $list->contact_count, 'created_date' => $list->created_date,
+        Link::fromTextAndUrl('Delete', Url::fromUserInput('/admin/constant_contact_block/list_delete/'.$list->id)),
       ];
     }
+   // Link::fromTextAndUrl($text, $url);
 
     $build = array(
       'table' => [
@@ -85,17 +99,20 @@ class ConstantContactController extends ControllerBase {
           'id' => $this->t('id'), 'name' => $this->t('name'),
           'list_id' => $this->t('list id'), 'modified_date' => $this->t('modified date'),
           'status' => $this->t('status'), 'contact_count' => $this->t('contact count'),
-          'created_date' => $this->t('created date')
+          'created_date' => $this->t('created date'), 'operations' => $this->t('operations')
         ),
         '#rows' => $rows,
         '#empty' => t('No contact lists found.'),
       ],
-
     );
 
     $build['pager'] = array(
       '#type' => 'pager'
     );
+    /*$build['operations'] = [
+      '#type' => 'operations',
+      '#links' => $operations,
+    ];*/
     return $build;
   }
   /**

@@ -43,4 +43,9 @@ class ConstantContactDataManager implements ConstantContactDataInterface{
     $results = $pager->execute()->fetchAll();
     return $results;
   }
+  public function deleteList($listId){
+    $query = $this->connection->delete('constant_contact_lists')
+      ->condition('id', $listId);
+    $query->execute();
+  }
 }
