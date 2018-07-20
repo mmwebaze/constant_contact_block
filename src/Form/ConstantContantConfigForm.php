@@ -34,6 +34,7 @@ class ConstantContantConfigForm extends ConfigFormBase {
     $clientSecret = $config->get('client_secret');
     $redirectUri = $config->get('redirect_uri');
     $authReqUrl = $config->get('auth_request_url');
+    $dataSrc = $config->get('data_src');
 
     $form['constant_contact'] = array(
       '#type' => 'fieldset',
@@ -54,20 +55,30 @@ class ConstantContantConfigForm extends ConfigFormBase {
     $form['constant_contact']['client_secret'] = array(
       '#type' => 'textfield', // to be changed to password
       '#title' => $this->t('Client secret'),
-      '#default_value' => isset($clientSecret) ? $config->get('client_secret') : '',
+      '#default_value' => isset($clientSecret) ? $clientSecret : '',
       '#required' => TRUE,
     );
     $form['constant_contact']['redirect_uri'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Redirect uri'),
-      '#default_value' => isset($redirectUri) ? $config->get('redirect_uri') : '',
+      '#default_value' => isset($redirectUri) ? $redirectUri : '',
       //'#required' => TRUE,
     );
     $form['constant_contact']['auth_request_url'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Auth request url'),
-      '#default_value' => isset($authReqUrl) ? $config->get('auth_request_url') : '',
+      '#default_value' => isset($authReqUrl) ? $authReqUrl : '',
       //'#required' => TRUE,
+    );
+
+    $form['constant_contact']['data_src'] = array(
+      '#type' => 'radios',
+      '#title' => $this->t('Source of contact lists'),
+      '#default_value' => isset($dataSrc) ? $dataSrc : '1',
+      '#options' => array(
+        '0' => t('Local'),
+        '1' => t('Remote'),
+      ),
     );
 
     return parent::buildForm($form, $form_state);
@@ -92,6 +103,7 @@ class ConstantContantConfigForm extends ConfigFormBase {
       ->set('client_secret', $form_state->getValue('client_secret'))
       ->set('redirect_uri', $form_state->getValue('redirect_uri'))
       ->set('auth_request_url', $form_state->getValue('auth_request_url'))
+      ->set('data_src', $form_state->getValue('data_src'))
       ->save();
   }
 }

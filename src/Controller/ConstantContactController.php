@@ -68,7 +68,6 @@ class ConstantContactController extends ControllerBase {
   public function getContactLists(){
 
     $lists = $this->constantContactDataService->getContactLists();
-    //print_r($lists);
 
     $rows = array();
     foreach ($lists as $list){

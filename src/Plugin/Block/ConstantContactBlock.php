@@ -4,8 +4,10 @@ namespace Drupal\constant_contact_block\Plugin\Block;
 
 use Drupal\constant_contact_block\Form\ConstantContactForm;
 use Drupal\Component\Uuid\Php;
+use Drupal\constant_contact_block\services\ConstantContactDataInterface;
 use Drupal\constant_contact_block\services\ConstantContactInterface;
 use Drupal\constant_contact_block\services\ConstantContactManager;
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Block\BlockPluginInterface;
@@ -23,22 +25,36 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ConstantContactBlock extends BlockBase implements BlockPluginInterface, ContainerFactoryPluginInterface {
   protected $constantContactManager;
+  protected $constantContactDataService;
   protected $contactLists;
   private $uuid;
   private $lists = array();
 
   public function __construct(array $configuration, $plugin_id, $plugin_definition,
-                              ConstantContactInterface $constantContactManager, Php $uuidService) {
+                              ConstantContactInterface $constantContactManager, Php $uuidService,
+                              ConstantContactDataInterface $constantContactDataService, ConfigFactory $configFactory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->constantContactManager = $constantContactManager;
     $this->uuid = $uuidService->generate();
-    $this->contactLists = $constantContactManager->getContactLists();
+    $this->constantContactDataService = $constantContactDataService;
+    $constantContantConfigs = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
+
+    if ($constantContantConfigs->get('data_src')){
+      $this->contactLists = $constantContactManager->getContactLists();
+      $this->contactLists = json_decode($this->contactLists);
+    }
+    else{
+      $this->contactLists = $constantContactDataService->getContactLists();
+    }
+
   }
 
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition){
         return new static($configuration, $plugin_id, $plugin_definition,
           $container->get('constant_contact_block.manager_service'),
-          $container->get('uuid')
+          $container->get('uuid'),
+          $container->get('constant_contact_block.data_manager'),
+          $container->get('config.factory')
         );
     }
     /**
@@ -52,11 +68,8 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
         $this->uuid = $config['uuid'];
       }
 
-      $contactLists = json_decode($this->contactLists);
-
-
       $listOptions = [];
-      foreach ($contactLists as $contactList){
+      foreach ($this->contactLists as $contactList){
         $listOptions[$contactList->id] = $contactList->name;
       }
       $this->contactLists = $listOptions;
