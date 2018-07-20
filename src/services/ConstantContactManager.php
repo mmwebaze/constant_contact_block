@@ -102,4 +102,17 @@ class ConstantContactManager implements ConstantContactInterface {
       return;
     }
   }
+  public function deleteContactList($listId){
+    $endPoint = 'lists/'.$listId.'?api_key='.$this->apiKey;
+    try{
+      $this->response = $this->client->request('DELETE', $this->baseUrl.$endPoint, $this->header);
+
+      //return
+    }
+    catch (RequestException $e) {
+      // log error $e
+      drupal_set_message($e->getMessage());
+      return;
+    }
+  }
 }

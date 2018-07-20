@@ -9,4 +9,5 @@ interface ConstantContactInterface
     public function getContactLists();
     public function getContacts();
     public function addContactList($name, $status);
+    public function deleteContactList($listId);
 }
