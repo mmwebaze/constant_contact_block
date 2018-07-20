@@ -78,16 +78,26 @@ class ConstantContactController extends ControllerBase {
         'contact_count' => $list->contact_count, 'created_date' => $list->created_date,
       ];
     }
-    return array(
-      '#theme' => 'table',
-      '#header' => array(
-        'id' => $this->t('id'), 'name' => $this->t('name'),
-        'list_id' => $this->t('list id'), 'modified_date' => $this->t('modified date'),
-        'status' => $this->t('status'), 'contact_count' => $this->t('contact count'),
-        'created_date' => $this->t('created date')
-      ),
-      '#rows' => $rows,
+
+    $build = array(
+      'table' => [
+        '#theme' => 'table',
+        '#header' => array(
+          'id' => $this->t('id'), 'name' => $this->t('name'),
+          'list_id' => $this->t('list id'), 'modified_date' => $this->t('modified date'),
+          'status' => $this->t('status'), 'contact_count' => $this->t('contact count'),
+          'created_date' => $this->t('created date')
+        ),
+        '#rows' => $rows,
+        '#empty' => t('No contact lists found.'),
+      ],
+
     );
+
+    $build['pager'] = array(
+      '#type' => 'pager'
+    );
+    return $build;
   }
   /**
    * {@inheritdoc}
