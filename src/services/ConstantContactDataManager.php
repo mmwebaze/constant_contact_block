@@ -24,7 +24,7 @@ class ConstantContactDataManager implements ConstantContactDataInterface{
 
   public function addContactList($values){
     if(isset($values)){
-      $values = json_decode($values);
+      //$values = json_decode($values);
       $value = [
         'id' => $values->id,
         'name' => $values->name,

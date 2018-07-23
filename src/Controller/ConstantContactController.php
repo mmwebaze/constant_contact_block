@@ -116,13 +116,9 @@ class ConstantContactController extends ControllerBase {
       $remoteLists = $this->constantContactService->getContactLists();
       $remoteLists = json_decode($remoteLists);
       $this->constantContactDataService->deleteTable('constant_contact_lists');
-
+      
       foreach ($remoteLists as $remoteList){
-        //print_r();
-        $this->constantContactDataService->addContactList(json_encode($remoteList));
-
-
-
+        $this->constantContactDataService->addContactList($remoteList);
       }
       drupal_set_message('Lists have been imported');
       return $this->redirect('constant_contact_block.view_lists');
