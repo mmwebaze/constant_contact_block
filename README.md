@@ -6,6 +6,7 @@ following is supported:
 * registration of email to an email list through a block
 * Auth2 support including saving the access token as a session 
 variable
+* supports storing email lists locally
 
 ## Installation
 
@@ -29,8 +30,8 @@ will be issued which will be saved as a session.
 ## Still to be done
 
 * access token info
-* support for saving email lists locally
 * better error handling
 * checkbox in config form for turning on/off sync
 * requests to be submitted to a queue worker and processed by cron
 * sending out campaigns using nodes that have been published (campaign subject = node title and campaign message = body field)
+* currently access token saved as a session (this willl be changed)

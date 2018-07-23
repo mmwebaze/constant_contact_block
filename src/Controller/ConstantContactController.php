@@ -116,7 +116,7 @@ class ConstantContactController extends ControllerBase {
       $remoteLists = $this->constantContactService->getContactLists();
       $remoteLists = json_decode($remoteLists);
       $this->constantContactDataService->deleteTable('constant_contact_lists');
-      
+
       foreach ($remoteLists as $remoteList){
         $this->constantContactDataService->addContactList($remoteList);
       }

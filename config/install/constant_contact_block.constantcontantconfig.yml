@@ -1,1 +1,5 @@
-constant_contact_block:
+base_url: https://api.constantcontact.com/v2/
+api_key:
+client_secret:
+redirect_uri: http://ungo.lndo.site/constant_contact_block/getCode
+auth_request_url: https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize
