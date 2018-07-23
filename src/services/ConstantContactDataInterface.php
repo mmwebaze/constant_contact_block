@@ -7,4 +7,5 @@ interface ConstantContactDataInterface {
   public function addContactList($values);
   public function getContactLists();
   public function deleteList($listId);
+  public function deleteTable($table);
 }

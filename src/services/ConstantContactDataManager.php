@@ -13,6 +13,11 @@ class ConstantContactDataManager implements ConstantContactDataInterface{
    */
   protected $connection;
 
+  /**
+   * ConstantContactDataManager constructor.
+   *
+   * @param \Drupal\Core\Database\Driver\mysql\Connection $connection
+   */
   public function __construct(Connection $connection) {
     $this->connection = $connection;
   }
@@ -39,7 +44,7 @@ class ConstantContactDataManager implements ConstantContactDataInterface{
   public function getContactLists(){
     $query = $this->connection->select('constant_contact_lists', 'ccl')
       ->fields('ccl');
-    $pager = $query->extend('Drupal\Core\Database\Query\PagerSelectExtender')->limit(20);
+    $pager = $query->extend('Drupal\Core\Database\Query\PagerSelectExtender')->limit(50);
     $results = $pager->execute()->fetchAll();
     return $results;
   }
@@ -47,5 +52,8 @@ class ConstantContactDataManager implements ConstantContactDataInterface{
     $query = $this->connection->delete('constant_contact_lists')
       ->condition('id', $listId);
     $query->execute();
+  }
+  public function deleteTable($table){
+    $this->connection->truncate($table)->execute();
   }
 }

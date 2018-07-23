@@ -2,7 +2,6 @@
 
 namespace Drupal\constant_contact_block\Form;
 
-use Drupal\Console\Bootstrap\Drupal;
 use Drupal\constant_contact_block\items\Contact;
 use Drupal\constant_contact_block\items\EmailAddress;
 use Drupal\Core\Form\FormBase;

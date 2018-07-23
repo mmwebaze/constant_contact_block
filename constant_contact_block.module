@@ -1,1 +1,12 @@
 <?php
+/**
+ * Implements hook_theme().
+ */
+function constant_contact_block_theme($existing, $type, $theme, $path) {
+
+  return [
+    'constant_contact_block' => [
+      'variables' => ['imported_data' => NULL],
+    ],
+  ];
+}

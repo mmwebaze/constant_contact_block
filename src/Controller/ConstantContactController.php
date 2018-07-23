@@ -5,6 +5,7 @@ namespace Drupal\constant_contact_block\Controller;
 use Drupal\constant_contact_block\authentication\ConstantContactAuth2;
 use Drupal\constant_contact_block\services\AuthenticationServiceInterface;
 use Drupal\constant_contact_block\services\ConstantContactDataInterface;
+use Drupal\constant_contact_block\services\ConstantContactInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -22,17 +23,20 @@ class ConstantContactController extends ControllerBase {
    */
   protected $authenticationService;
   protected $constantContactDataService;
+  protected $constantContactService;
 
   /**
    * ConstantContactController constructor.
    *
    * @param \Drupal\constant_contact_block\services\AuthenticationServiceInterface $authenticationService
    * @param \Drupal\constant_contact_block\services\ConstantContactDataInterface $constantContactDataService
+   * @param \Drupal\constant_contact_block\services\ConstantContactInterface $constantContactService
    */
   public function __construct(AuthenticationServiceInterface $authenticationService,
-                              ConstantContactDataInterface $constantContactDataService) {
+                              ConstantContactDataInterface $constantContactDataService, ConstantContactInterface $constantContactService) {
     $this->authenticationService = $authenticationService;
     $this->constantContactDataService = $constantContactDataService;
+    $this->constantContactService = $constantContactService;
   }
 
   /**
@@ -70,16 +74,6 @@ class ConstantContactController extends ControllerBase {
   public function getContactLists(){
 
     $lists = $this->constantContactDataService->getContactLists();
-    $operations['edit'] = [
-      'title' => $this->t('Edit'),
-      'weight' => 10,
-      //'url' => $this->ensureDestination($entity->toUrl('edit-form')),
-    ];
-    $operations['delete'] = [
-      'title' => $this->t('Delete'),
-      'weight' => 100,
-      //'url' => $this->ensureDestination($entity->toUrl('delete-form')),
-    ];
 
     $rows = array();
     foreach ($lists as $list){
@@ -90,7 +84,6 @@ class ConstantContactController extends ControllerBase {
         Link::fromTextAndUrl('Delete', Url::fromUserInput('/admin/constant_contact_block/list_delete/'.$list->id)),
       ];
     }
-   // Link::fromTextAndUrl($text, $url);
 
     $build = array(
       'table' => [
@@ -109,11 +102,43 @@ class ConstantContactController extends ControllerBase {
     $build['pager'] = array(
       '#type' => 'pager'
     );
-    /*$build['operations'] = [
-      '#type' => 'operations',
-      '#links' => $operations,
-    ];*/
     return $build;
+  }
+  public function importContactLists(Request $request){
+
+    $importStatus = $request->attributes->get('importStatus');
+    $form = $this->formBuilder()->getForm('Drupal\constant_contact_block\Form\ConstantContactImportListForm');
+
+    if ($importStatus == 0){
+      drupal_set_message('Import Constant Contact lists locally. Any list already imported will be deleted first.', 'warning');
+    }
+    else{
+      $remoteLists = $this->constantContactService->getContactLists();
+      $remoteLists = json_decode($remoteLists);
+      $this->constantContactDataService->deleteTable('constant_contact_lists');
+
+      foreach ($remoteLists as $remoteList){
+        //print_r();
+        $this->constantContactDataService->addContactList(json_encode($remoteList));
+
+
+
+      }
+      drupal_set_message('Lists have been imported');
+      return $this->redirect('constant_contact_block.view_lists');
+
+    }
+
+    /*return array(
+      '#type' => 'markup',
+      '#theme' => 'constant_contact_block',
+      '#attached' => array(
+        'library' => array(
+          'constant_contact_block/constant_contact_block.import_lists'
+        )
+      ),
+    );*/
+    return $form;
   }
   /**
    * {@inheritdoc}
@@ -121,7 +146,8 @@ class ConstantContactController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('constant_contact_block.authentication'),
-      $container->get('constant_contact_block.data_manager')
+      $container->get('constant_contact_block.data_manager'),
+      $container->get('constant_contact_block.manager_service')
     );
   }
 }

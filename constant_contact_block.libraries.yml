@@ -1,0 +1,7 @@
+constant_contact_block.import_lists:
+  js:
+    js/constant_contact_block.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal

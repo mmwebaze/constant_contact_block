@@ -12,6 +12,13 @@ constant_contact_block.view_lists:
   weight: 10
   parent: 'constant_contact_block.main_menu'
 
+constant_contact_block.import_lists:
+  title: 'Import lists from Constant Contact'
+  description: 'Import lists from Constant Contact'
+  route_name: 'constant_contact_block.import_lists'
+  weight: 20
+  parent: 'constant_contact_block.main_menu'
+
 constant_contact_block.constant_contant_config_form:
   title: 'Constant Contant Settings'
   route_name: constant_contact_block.constant_contant_config_form

@@ -27,6 +27,12 @@ class ConstantContactListDeleteForm extends ConfirmFormBase {
    */
   protected $constantContactService;
 
+  /**
+   * ConstantContactListDeleteForm constructor.
+   *
+   * @param \Drupal\constant_contact_block\services\ConstantContactDataInterface $constantContactDataService
+   * @param \Drupal\constant_contact_block\services\ConstantContactInterface $constantContactService
+   */
   public function __construct(ConstantContactDataInterface $constantContactDataService,
                               ConstantContactInterface $constantContactService) {
     $this->constantContactDataService = $constantContactDataService;
