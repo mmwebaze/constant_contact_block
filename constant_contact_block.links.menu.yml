@@ -19,6 +19,13 @@ constant_contact_block.import_lists:
   weight: 20
   parent: 'constant_contact_block.main_menu'
 
+constant_contact_block.authorize_app:
+  title: 'Authorize site on Constant Contact'
+  route_name: constant_contact_block.constant_contact_controller_getAuthorization
+  description: 'Authorize App'
+  weight: 30
+  parent: 'constant_contact_block.main_menu'
+
 constant_contact_block.constant_contant_config_form:
   title: 'Constant Contant Settings'
   route_name: constant_contact_block.constant_contant_config_form

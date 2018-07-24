@@ -45,8 +45,6 @@ class ConstantContactController extends ControllerBase {
    */
   public function getAuthorization(){
 
-    //$auth = new ConstantContactAuth2();
-    //$url = $auth->getAuthorizationUrl();
     $url = $this->authenticationService->getAuthorizationUrl();
 
     return array(
@@ -55,11 +53,11 @@ class ConstantContactController extends ControllerBase {
   }
 
   /**
-   * Getcode
+   * Get code
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
    *
-   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
    */
   public function getCode(Request $request) {
     $code = $request->query->get('code');
@@ -69,7 +67,8 @@ class ConstantContactController extends ControllerBase {
     $accessTokenResponse = json_decode($response);
     $session->set('access_token', $accessTokenResponse->access_token);
 
-    return new JsonResponse($accessTokenResponse );
+    //return new JsonResponse($accessTokenResponse );
+    return $this->redirect('constant_contact_block.main_menu');
   }
   public function getContactLists(){
 
@@ -95,7 +94,7 @@ class ConstantContactController extends ControllerBase {
           'created_date' => $this->t('created date'), 'operations' => $this->t('operations')
         ),
         '#rows' => $rows,
-        '#empty' => t('No contact lists found.'),
+        '#empty' => t('No contact lists found locally.'),
       ],
     );
 
@@ -104,6 +103,12 @@ class ConstantContactController extends ControllerBase {
     );
     return $build;
   }
+
+  /**
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *
+   * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+   */
   public function importContactLists(Request $request){
 
     $importStatus = $request->attributes->get('importStatus');
