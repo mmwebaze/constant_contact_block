@@ -14,7 +14,6 @@ class ConstantContactForm extends FormBase{
   public function __construct($formId, array $fields) {
     $this->formId = $formId;
     $this->fields = $fields;
-    drupal_set_message(json_encode($fields).'**');
   }
   /**
    * {@inheritdoc}
@@ -55,13 +54,8 @@ class ConstantContactForm extends FormBase{
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $email = $form_state->getValue('employee_mail');
     $selectedLists = $form_state->getValue('email_lists');
-    //print_r($selectedLists);die();
     $constantContactManger = \Drupal::service('constant_contact_block.manager_service');
-    //$contactLists = $constantContactManger->getContactLists();
-    //$contactLists = $constantContactManger->addContactList('Open source');
-    /*$db = \Drupal::service('constant_contact_block.data_manager');
-    $db->addContactList($contactLists);*/
-    //drupal_set_message($contactLists);//die('created');
+
     $lists = [];
     foreach ($selectedLists as $selectedList){
       if ($selectedList != 0){
@@ -73,8 +67,6 @@ class ConstantContactForm extends FormBase{
 
     $contact = new Contact('', '', '',
       'ACTIVE', [new EmailAddress($email)], $lists);
-    drupal_set_message(json_encode($contact));
-
-    drupal_set_message($constantContactManger->addContact($contact));
+    $constantContactManger->addContact($contact);
   }
 }

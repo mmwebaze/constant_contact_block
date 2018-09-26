@@ -35,6 +35,7 @@ class ConstantContantConfigForm extends ConfigFormBase {
     $redirectUri = $config->get('redirect_uri');
     $authReqUrl = $config->get('auth_request_url');
     $dataSrc = $config->get('data_src');
+    $authToken = $config->get('auth_token');
 
     $form['constant_contact'] = array(
       '#type' => 'fieldset',
@@ -70,6 +71,12 @@ class ConstantContantConfigForm extends ConfigFormBase {
       '#default_value' => isset($authReqUrl) ? $authReqUrl : '',
       //'#required' => TRUE,
     );
+    $form['constant_contact']['auth_token'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('Constant Contact Auth Token'),
+      '#default_value' => isset($authToken) ? $authToken : '',
+      //'#required' => TRUE,
+    );
 
     $form['constant_contact']['data_src'] = array(
       '#type' => 'radios',
@@ -103,6 +110,7 @@ class ConstantContantConfigForm extends ConfigFormBase {
       ->set('client_secret', $form_state->getValue('client_secret'))
       ->set('redirect_uri', $form_state->getValue('redirect_uri'))
       ->set('auth_request_url', $form_state->getValue('auth_request_url'))
+      ->set('auth_token', $form_state->getValue('auth_token'))
       ->set('data_src', $form_state->getValue('data_src'))
       ->save();
   }

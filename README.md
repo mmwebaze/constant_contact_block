@@ -34,6 +34,4 @@ will be issued which will be saved as a session.
 * checkbox in config form for turning on/off sync
 * requests to be submitted to a queue worker and processed by cron
 ** sending out campaigns using nodes that have been published (campaign subject = node title and campaign message = body field)
-* currently access token saved as a session (this will be changed)
-* replace drupal_set_message with DI version
 * add support for extra fields (first name, last name, address e.t.c)

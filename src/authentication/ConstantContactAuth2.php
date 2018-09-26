@@ -34,33 +34,6 @@ class ConstantContactAuth2 {
   }
 
   /**
-   * Get the URL at which the user can authenticate and authorize the requesting application
-   *
-   * @return string
-   */
- /* public function getAuthorizationUrl() {
-    $httpClient = \Drupal::service('http_client');
-
-    $url = $this->authRequestUrl.'?response_type=code&client_id='.$this->clientId.'&oauthSignup='.$this->oauthSignup.'&redirect_uri='.$this->redirectUri;
-   // drupal_set_message($url);
-    try{
-      $response = $httpClient->get($url);
-
-      if ($response->getStatusCode() == 200){
-        //drupal_set_message($response->getUrl());
-
-        return $url;
-      }
-
-      return 'invalid url';
-    }
-    catch (RequestException $e) {
-      //drupal_set_message($e->getMessage());
-      return json_encode(['error' => $e->getMessage()]);
-    }
-  }*/
-
-  /**
    * @param $code
    */
   public function getAccessToken($code, $params){
@@ -75,15 +48,6 @@ class ConstantContactAuth2 {
     //print_r($params['client_secret']);die('433*');
     $url = 'https://oauth2.constantcontact.com/oauth2/oauth/token?grant_type=authorization_code&client_id='.$params['client_id'].'&client_secret='.$params['client_secret'].'&code='.$code.'&redirect_uri='.$params['redirect_uri'];
     try{
-      /*$response = $httpClient->post('https://oauth2.constantcontact.com/oauth2/oauth/token?',
-        [
-          'body' => json_encode($body),
-          'headers' => [
-            'Content-Type' => 'application/json',
-          ]
-        ]);*/
-      //print($url);
-      //die();
       $response = $httpClient->request('POST', $url, [
         'headers' => [
           'Accept' => 'application/json',

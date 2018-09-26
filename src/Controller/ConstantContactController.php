@@ -11,7 +11,9 @@ use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Drupal\Core\Messenger\Messenger;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\Config\ConfigFactory;
 
 /**
  * Class ConstantContactController.
@@ -24,6 +26,8 @@ class ConstantContactController extends ControllerBase {
   protected $authenticationService;
   protected $constantContactDataService;
   protected $constantContactService;
+  protected $configFactory;
+  protected $messenger;
 
   /**
    * ConstantContactController constructor.
@@ -31,12 +35,17 @@ class ConstantContactController extends ControllerBase {
    * @param \Drupal\constant_contact_block\services\AuthenticationServiceInterface $authenticationService
    * @param \Drupal\constant_contact_block\services\ConstantContactDataInterface $constantContactDataService
    * @param \Drupal\constant_contact_block\services\ConstantContactInterface $constantContactService
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   * @param \Drupal\Core\Messenger\Messenger $messenger
    */
   public function __construct(AuthenticationServiceInterface $authenticationService,
-                              ConstantContactDataInterface $constantContactDataService, ConstantContactInterface $constantContactService) {
+                              ConstantContactDataInterface $constantContactDataService,
+                              ConstantContactInterface $constantContactService, ConfigFactory $configFactory, Messenger $messenger) {
     $this->authenticationService = $authenticationService;
     $this->constantContactDataService = $constantContactDataService;
     $this->constantContactService = $constantContactService;
+    $this->configFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
+    $this->messenger = $messenger;
   }
 
   /**
@@ -66,6 +75,7 @@ class ConstantContactController extends ControllerBase {
     $response = $this->authenticationService->getAccessToken($code);
     $accessTokenResponse = json_decode($response);
     $session->set('access_token', $accessTokenResponse->access_token);
+    $this->configFactory->set('auth_token', $accessTokenResponse->access_token)->save();
 
     //return new JsonResponse($accessTokenResponse );
     return $this->redirect('constant_contact_block.main_menu');
@@ -115,7 +125,7 @@ class ConstantContactController extends ControllerBase {
     $form = $this->formBuilder()->getForm('Drupal\constant_contact_block\Form\ConstantContactImportListForm');
 
     if ($importStatus == 0){
-      drupal_set_message('Import Constant Contact lists locally. Any list already imported will be deleted first.', 'warning');
+      $this->messenger->addMessage('Import Constant Contact lists locally. Any list already imported will be deleted first.', 'warning');
     }
     else{
       $remoteLists = $this->constantContactService->getContactLists();
@@ -125,7 +135,7 @@ class ConstantContactController extends ControllerBase {
       foreach ($remoteLists as $remoteList){
         $this->constantContactDataService->addContactList($remoteList);
       }
-      drupal_set_message('Lists have been imported');
+      $this->messenger->addMessage('Lists have been imported');
       return $this->redirect('constant_contact_block.view_lists');
 
     }
@@ -148,7 +158,9 @@ class ConstantContactController extends ControllerBase {
     return new static(
       $container->get('constant_contact_block.authentication'),
       $container->get('constant_contact_block.data_manager'),
-      $container->get('constant_contact_block.manager_service')
+      $container->get('constant_contact_block.manager_service'),
+      $container->get( 'config.factory'),
+      $container->get('messenger')
     );
   }
 }

@@ -6,7 +6,7 @@ use Drupal\constant_contact_block\items\ContactList;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Drupal\Core\Config\ConfigFactory;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Core\Messenger\Messenger;
 
 class ConstantContactManager implements ConstantContactInterface {
   private $response;
@@ -15,24 +15,24 @@ class ConstantContactManager implements ConstantContactInterface {
   private $token;
   private $header;
   protected $client;
-  protected $requestStack;
+  protected $messenger;
 
   /**
    * @var \Drupal\Core\Config\ConfigFactory
    */
   protected $configFactory;
 
-  public function __construct(Client $client, ConfigFactory $configFactory, RequestStack $requestStack) {
+  public function __construct(Client $client, ConfigFactory $configFactory, Messenger $messenger) {
     $this->client = $client;
-    $request = $requestStack->getCurrentRequest();
-    $session = $request->getSession();
-    $this->token = $session->get('access_token');
+    $this->messenger = $messenger;
+    $this->configFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
+    $this->token = $this->configFactory->get('auth_token');
     $this->header = ['headers' => [
       'Authorization' => 'Bearer ' .$this->token,
       'Content-Type' => 'application/json',
       'Accept' => 'application/json'
     ]];
-    $this->configFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
+
     $this->baseUrl = $this->configFactory->get('base_url');
     $this->apiKey = $this->configFactory->get('api_key');
   }
@@ -50,7 +50,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      drupal_set_message($e->getMessage());
+      $this->messenger->addMessage($e->getMessage());
       return $this;
     }
   }
@@ -62,7 +62,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      drupal_set_message($e->getMessage());
+      $this->messenger->addMessage($e->getMessage());
       return;
     }
   }
@@ -75,7 +75,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      drupal_set_message($e->getMessage());
+      $this->messenger->addMessage($e->getMessage());
       return;
     }
   }
@@ -98,7 +98,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      drupal_set_message($e->getMessage());
+      $this->messenger->addMessage($e->getMessage());
       return;
     }
   }
@@ -111,7 +111,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      drupal_set_message($e->getMessage());
+      $this->messenger->addMessage($e->getMessage());
       return;
     }
   }
