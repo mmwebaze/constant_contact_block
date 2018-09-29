@@ -70,11 +70,12 @@ class ConstantContactController extends ControllerBase {
    */
   public function getCode(Request $request) {
     $code = $request->query->get('code');
-    $session = $request->getSession();
+
+    //$session = $request->getSession();
 
     $response = $this->authenticationService->getAccessToken($code);
     $accessTokenResponse = json_decode($response);
-    $session->set('access_token', $accessTokenResponse->access_token);
+   // $session->set('access_token', $accessTokenResponse->access_token);
     $this->configFactory->set('auth_token', $accessTokenResponse->access_token)->save();
 
     //return new JsonResponse($accessTokenResponse );

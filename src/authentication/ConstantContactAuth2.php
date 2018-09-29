@@ -7,12 +7,6 @@ use Drupal\Console\Bootstrap\Drupal;
 use GuzzleHttp\Exception\RequestException;
 
 class ConstantContactAuth2 {
-  protected $redirectUri = 'http://ungo.lndo.site/constant_contact_block/getCode';
-  protected $clientId = 'g2jnh338hrwqxtzkuhxzkrqt';
-  protected $clientSecret = 't8tjrrCVhWAwgDYvguzSABdy';
-  protected $grantType = 'authorization_code';
-  protected $code = 'code';
-  protected $authRequestUrl = 'https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize';
   protected $params;
 
   /**
