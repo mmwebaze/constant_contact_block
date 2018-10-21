@@ -30,13 +30,6 @@ class AuthenticationService implements AuthenticationServiceInterface
     $this->redirectUri = $this->configFactory->get('redirect_uri');
     $this->auth = new ConstantContactAuth2();
   }
-  private function getHeaders() {
-      return array(
-        //'Content-Type' => 'application/json',
-        //'Accept' => 'application/json',
-        'Authorization' => 'Bearer ' . '4f2f5ecd-0156-412e-bffc-cf95b4ce7958'
-      );
-  }
 
   /**
    * Get the URL at which the user can authenticate and authorize the requesting application
@@ -45,10 +38,18 @@ class AuthenticationService implements AuthenticationServiceInterface
    */
   public function getAuthorizationUrl() {
 
-    $oauthSignup = 'true';
-    $authUrl = $this->authRequestUrl.'?response_type=code&client_id='.$this->clientId.'&oauthSignup='.$oauthSignup.'&redirect_uri='.$this->redirectUri;
+    $this->clientId = null;
+    if ((isset($this->clientId) && isset($this->authRequestUrl) && isset($this->clientSecret)
+      && isset($this->redirectUri))){
+      $oauthSignup = 'true';
+      $authUrl = $this->authRequestUrl.'?response_type=code&client_id='.$this->clientId.'&oauthSignup='.$oauthSignup.'&redirect_uri='.$this->redirectUri;
 
-    return $authUrl;
+      return $authUrl;
+    }
+    else{
+
+      return FALSE;
+    }
   }
   public function getAccessToken($code) {
 

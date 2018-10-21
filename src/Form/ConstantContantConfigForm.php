@@ -5,6 +5,7 @@ namespace Drupal\constant_contact_block\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
+
 /**
  * Class ConstantContantConfigForm.
  */
@@ -62,7 +63,7 @@ class ConstantContantConfigForm extends ConfigFormBase {
     $form['constant_contact']['redirect_uri'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Redirect uri'),
-      '#default_value' => isset($redirectUri) ? $redirectUri : '',
+      '#default_value' => isset($redirectUri) ? $redirectUri : $this->getRequest()->getSchemeAndHttpHost().'/constant_contact_block/getCode',
       //'#required' => TRUE,
     );
     $form['constant_contact']['auth_request_url'] = array(

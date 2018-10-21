@@ -56,7 +56,12 @@ class ConstantContactController extends ControllerBase {
 
     $url = $this->authenticationService->getAuthorizationUrl();
 
+    if (!$url){
+      return $this->redirect('constant_contact_block.constant_contant_config_form');
+    }
+
     return array(
+      '#type' => 'markup',
       '#markup' => '<a href='.$url.' target="_blank">Authorize App</a>',
     );
   }
@@ -77,7 +82,6 @@ class ConstantContactController extends ControllerBase {
     $session->set('access_token', $accessTokenResponse->access_token);
     $this->configFactory->set('auth_token', $accessTokenResponse->access_token)->save();
 
-    //return new JsonResponse($accessTokenResponse );
     return $this->redirect('constant_contact_block.main_menu');
   }
   public function getContactLists(){
@@ -140,15 +144,6 @@ class ConstantContactController extends ControllerBase {
 
     }
 
-    /*return array(
-      '#type' => 'markup',
-      '#theme' => 'constant_contact_block',
-      '#attached' => array(
-        'library' => array(
-          'constant_contact_block/constant_contact_block.import_lists'
-        )
-      ),
-    );*/
     return $form;
   }
   /**
