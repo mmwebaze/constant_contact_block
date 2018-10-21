@@ -38,7 +38,6 @@ class AuthenticationService implements AuthenticationServiceInterface
    */
   public function getAuthorizationUrl() {
 
-    $this->clientId = null;
     if ((isset($this->clientId) && isset($this->authRequestUrl) && isset($this->clientSecret)
       && isset($this->redirectUri))){
       $oauthSignup = 'true';

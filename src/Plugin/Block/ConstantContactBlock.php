@@ -108,11 +108,14 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->setConfigurationValue('uuid', $this->uuid);
     $selectedLists = $form_state->getValue('cc_email_'.$this->uuid);
+
     foreach ($selectedLists as $selectedList => $value){
+      print_r($value);
       if ($value != 0){
         $this->lists[$value] = $this->contactLists[$value];
       }
     }
+
     $this->setConfigurationValue('cc_email_'.$this->uuid, $selectedLists);
     $this->setConfigurationValue('constant_contact_block_form_'.$this->uuid, $this->lists);
   }
