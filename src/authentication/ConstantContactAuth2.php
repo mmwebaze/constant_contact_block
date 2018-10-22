@@ -45,7 +45,6 @@ class ConstantContactAuth2 {
     $body->code = $code;
     $body->redirect_uri = $params['redirect_uri'];
 
-    //print_r($params['client_secret']);die('433*');
     $url = 'https://oauth2.constantcontact.com/oauth2/oauth/token?grant_type=authorization_code&client_id='.$params['client_id'].'&client_secret='.$params['client_secret'].'&code='.$code.'&redirect_uri='.$params['redirect_uri'];
     try{
       $response = $httpClient->request('POST', $url, [
@@ -54,11 +53,11 @@ class ConstantContactAuth2 {
           'Content-Type' => 'application/json',
         ]
       ]);
-      //$response->getBody()->getContents();
+
       return (string)$response->getBody();
     }
     catch (RequestException $e) {
-      print($e->getMessage());
+      \Drupal::service('messenger')->addMessage('Redirect URI mismatch', 'Constant Contact Block');
     }
   }
 }

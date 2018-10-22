@@ -3,7 +3,6 @@
 namespace Drupal\constant_contact_block\Plugin\Block;
 
 use Drupal\constant_contact_block\Form\ConstantContactForm;
-use Drupal\Component\Uuid\Php;
 use Drupal\constant_contact_block\services\ConstantContactDataInterface;
 use Drupal\constant_contact_block\services\ConstantContactInterface;
 use Drupal\constant_contact_block\services\ConstantContactManager;
@@ -27,16 +26,16 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
   protected $constantContactManager;
   protected $constantContactDataService;
   protected $contactLists;
-  private $uuid;
   private $lists = array();
+  private $machineName;
 
   public function __construct(array $configuration, $plugin_id, $plugin_definition,
-                              ConstantContactInterface $constantContactManager, Php $uuidService,
+                              ConstantContactInterface $constantContactManager,
                               ConstantContactDataInterface $constantContactDataService, ConfigFactory $configFactory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->constantContactManager = $constantContactManager;
-    $this->uuid = $uuidService->generate();
     $this->constantContactDataService = $constantContactDataService;
+    $this->machineName = $this->getMachineNameSuggestion();
     $constantContantConfigs = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
 
     if ($constantContantConfigs->get('data_src')){
@@ -52,7 +51,6 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition){
         return new static($configuration, $plugin_id, $plugin_definition,
           $container->get('constant_contact_block.manager_service'),
-          $container->get('uuid'),
           $container->get('constant_contact_block.data_manager'),
           $container->get('config.factory')
         );
@@ -64,8 +62,8 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
       $form = parent::blockForm($form, $form_state);
       $config = $this->getConfiguration();
 
-      if (isset($config['uuid'])){
-        $this->uuid = $config['uuid'];
+      if (isset($config['machine_name'])){
+        $this->machineName = $config['machine_name'];
       }
 
       $listOptions = [];
@@ -75,11 +73,11 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
       $this->contactLists = $listOptions;
 
       $emailLists = [];
-      if (isset($config['cc_email_'.$this->uuid])){
-        $emailLists = $config['cc_email_'.$this->uuid];
+      if (isset($config['cc_email_'.$this->machineName])){
+        $emailLists = $config['cc_email_'.$this->machineName];
       }
 
-      $form['cc_email_'.$this->uuid] = array(
+      $form['cc_email_'.$this->machineName] = array(
         '#title' => $this->t('Email lists'),
         '#type' => 'checkboxes',
         '#multiple' => TRUE,
@@ -96,8 +94,8 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
      */
     public function build() {
       $config = $this->getConfiguration();
-      $uuid = $config['uuid'];
-      $constantContactForm = new ConstantContactForm($uuid, $config['constant_contact_block_form_'.$uuid]);
+      $machineName = $config['machineName'];
+      $constantContactForm = new ConstantContactForm($machineName, $config['constant_contact_block_form_'.$machineName]);
       // $form = $form = \Drupal::formBuilder()->getForm('Drupal\constant_contact_block_form_\Form\ConstantContactForm', $parameter);
       $form = $form = \Drupal::formBuilder()->getForm($constantContactForm);
       return $form;
@@ -106,17 +104,16 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
-    $this->setConfigurationValue('uuid', $this->uuid);
-    $selectedLists = $form_state->getValue('cc_email_'.$this->uuid);
+    $this->setConfigurationValue('machineName', $this->machineName);
+    $selectedLists = $form_state->getValue('cc_email_'.$this->machineName);
 
     foreach ($selectedLists as $selectedList => $value){
-      print_r($value);
       if ($value != 0){
         $this->lists[$value] = $this->contactLists[$value];
       }
     }
 
-    $this->setConfigurationValue('cc_email_'.$this->uuid, $selectedLists);
-    $this->setConfigurationValue('constant_contact_block_form_'.$this->uuid, $this->lists);
+    $this->setConfigurationValue('cc_email_'.$this->machineName, $selectedLists);
+    $this->setConfigurationValue('constant_contact_block_form_'.$this->machineName, $this->lists);
   }
 }

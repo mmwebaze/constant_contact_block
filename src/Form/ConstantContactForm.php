@@ -67,6 +67,14 @@ class ConstantContactForm extends FormBase{
 
     $contact = new Contact('', '', '',
       'ACTIVE', [new EmailAddress($email)], $lists);
-    $constantContactManger->addContact($contact);
+
+    $checkContact = $constantContactManger->checkContactExistsByEmail($email);
+
+    if (empty($checkContact)){
+      $constantContactManger->addContact($contact);
+    }
+    else{
+      $constantContactManger->updateContant($checkContact, $lists);
+    }
   }
 }

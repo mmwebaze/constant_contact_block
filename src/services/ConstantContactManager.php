@@ -106,13 +106,78 @@ class ConstantContactManager implements ConstantContactInterface {
     $endPoint = 'lists/'.$listId.'?api_key='.$this->apiKey;
     try{
       $this->response = $this->client->request('DELETE', $this->baseUrl.$endPoint, $this->header);
-
-      //return
     }
     catch (RequestException $e) {
       // log error $e
       $this->messenger->addMessage($e->getMessage());
       return;
     }
+  }
+  public function updateContant($contact, $lists){
+    $endPoint = 'contacts/'.$contact->id.'?action_by=ACTION_BY_OWNER&api_key='.$this->apiKey;
+    $headers = ['headers' => [
+
+      'Authorization' => 'Bearer '.$this->token,
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    ]];
+    $listIds = [];
+    foreach ($contact->lists as $list){
+      array_push($listIds, $list->id);
+    }
+
+    $contact->lists = $this->objectInArray($lists, $listIds);
+
+    try{
+      $response = $this->client->put($this->baseUrl.$endPoint, [
+        'debug' => TRUE,
+        'body' => json_encode($contact),
+        'Content-Type' => 'application/json',
+        'headers' => $headers['headers']
+      ]);
+    }
+    catch (RequestException $e){
+      $this->messenger->addMessage($e->getMessage());
+      return;
+    }
+  }
+  public function checkContactExistsByEmail($email){
+    $endPoint = 'contacts?email='.urlencode($email).'&status=ALL&limit=50&api_key='.$this->apiKey;
+    $headers = [
+      'Authorization' => 'Bearer ' . $this->token,
+    ];
+
+    try{
+      $response = $this->client->get($this->baseUrl.$endPoint, [
+        'Content-Type' => 'application/json',
+        'headers' => $headers
+      ]);
+      $responseObj = json_decode($response->getBody()->getContents())->results[0];
+      return $responseObj;
+    }
+    catch (RequestException $e){
+      $this->messenger->addMessage($e->getMessage());
+      return;
+    }
+  }
+  private function objectInArray($arr, array $listIds){
+
+    $updatedIds = $listIds;
+
+    foreach ($arr as $item){
+      array_push($updatedIds, $item->id);
+    }
+
+    $updatedIds =  array_unique($updatedIds);
+
+    $updatedIdObj = [];
+    foreach($updatedIds as $updatedId){
+      $obj = new \stdClass();
+      $obj->id = $updatedId;
+
+      array_push($updatedIdObj, $obj);
+    }
+
+    return $updatedIdObj;
   }
 }

@@ -43,4 +43,20 @@ interface ConstantContactInterface
      * @return string json formatted string
      */
     public function deleteContactList($listId);
+
+  /**
+   * Updates a contact to a Constant Contact list
+   * @param $contact
+   *
+   * @return string json formatted string output
+   */
+    public function updateContant($contact, $lists);
+
+  /**
+   * Checks for the existence of a contact on Constant Contact by email
+   * @param $email
+   *
+   * @return boolean
+   */
+    public function checkContactExistsByEmail($email);
 }
