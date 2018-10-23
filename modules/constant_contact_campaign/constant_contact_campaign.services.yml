@@ -1,0 +1,4 @@
+services:
+  constant_contact_campaign.manager:
+    class: Drupal\constant_contact_campaign\services\ConstantContactCampaignManager
+    arguments: []
