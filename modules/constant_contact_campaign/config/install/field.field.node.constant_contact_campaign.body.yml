@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+  - field.storage.node.body
+  - node.type.constant_contact_campaign
+  module:
+  - text
+id: node.constant_contact_campaign.body
+field_name: body
+entity_type: node
+bundle: constant_contact_campaign
+label: Body
+description: 'More specific information about the car brand.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary
