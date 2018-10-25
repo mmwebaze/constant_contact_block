@@ -3,7 +3,8 @@
 namespace Drupal\constant_contact_campaign\Entity;
 
 
-class MessageFooter {
+class MessageFooter implements \JsonSerializable {
+
   protected $organization_name;
   protected $address_line_1;
   protected $address_line_2;
@@ -17,4 +18,16 @@ class MessageFooter {
   protected $forward_email_link_text;
   protected $include_subscribe_link;
   protected $subscribe_link_text;
+
+  /**
+   * Json Serialize.
+   *
+   * @return array
+   *   Json Serialize.
+   */
+  public function jsonSerialize() {
+    $vars = get_object_vars($this);
+
+    return $vars;
+  }
 }

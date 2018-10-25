@@ -19,20 +19,21 @@ class ConstantContactCampaignManager implements ConstantContactCampaignManagerIn
   public function __construct(Client $client, ConfigFactory $configFactory, Messenger $messenger){
     $this->client = $client;
     $this->messenger = $messenger;
-    $this->configFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
-    $this->token = $this->configFactory->get('auth_token');
-    $this->baseUrl = $this->configFactory->get('base_url');
-    $this->apiKey = $this->configFactory->get('api_key');
+    $constantContactconfigFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
+    $this->token = $constantContactconfigFactory->get('auth_token');
+    $this->baseUrl = $constantContactconfigFactory->get('base_url');
+    $this->apiKey = $constantContactconfigFactory->get('api_key');
     $this->header = ['headers' => [
       'Authorization' => 'Bearer ' .$this->token,
       'Content-Type' => 'application/json',
       'Accept' => 'application/json'
     ]];
+    $this->configFactory = $configFactory->getEditable('constant_contact_campaign.campaign_config');
   }
   public function createEmailCampaign(){
     //$endPoint = '/emailmarketing/campaignscontacts?api_key='.$this->apiKey;
     try{
-      die('I have created a campaign');
+      die('I have created a campaign: '.$this->configFactory->get('from_name'));
     }
     catch(RequestException $e){
       $this->messenger->addMessage($e->getMessage());

@@ -1,7 +1,7 @@
 <?php
 namespace Drupal\constant_contact_campaign\Entity;
 
-class Campaign {
+class Campaign implements \JsonSerializable {
 
   protected $name;
   protected $subject;
@@ -21,4 +21,16 @@ class Campaign {
   protected $email_content_format;
   protected $style_sheet;
   protected $message_footer;
+
+  /**
+   * Json Serialize.
+   *
+   * @return array
+   *   Json Serialize.
+   */
+  public function jsonSerialize() {
+    $vars = get_object_vars($this);
+
+    return $vars;
+  }
 }
