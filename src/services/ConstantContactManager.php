@@ -6,7 +6,6 @@ use Drupal\constant_contact_block\items\ContactList;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Core\Messenger\Messenger;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 
 class ConstantContactManager implements ConstantContactInterface {
