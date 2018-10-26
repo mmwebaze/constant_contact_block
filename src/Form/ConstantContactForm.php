@@ -6,14 +6,20 @@ use Drupal\constant_contact_block\items\Contact;
 use Drupal\constant_contact_block\items\EmailAddress;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\Messenger;
 
 class ConstantContactForm extends FormBase{
 
+  /**
+   * @var \Drupal\Core\Messenger\Messenger
+   */
+  protected $messenger;
   private $fields = array();
   private $formId;
-  public function __construct($formId, array $fields) {
+  public function __construct($formId, array $fields, Messenger $messenger) {
     $this->formId = $formId;
     $this->fields = $fields;
+    $this->messenger = $messenger;
   }
   /**
    * {@inheritdoc}
@@ -67,12 +73,19 @@ class ConstantContactForm extends FormBase{
       'ACTIVE', [new EmailAddress($email)], $lists);
 
     $checkContact = $constantContactManger->checkContactExistsByEmail($email);
-
+    $message = NULL;
     if (empty($checkContact)){
-      $constantContactManger->addContact($contact);
+      $message = $constantContactManger->addContact($contact);
+
     }
     else{
-      $constantContactManger->updateContant($checkContact, $lists);
+      $message = $constantContactManger->updateContant($checkContact, $lists);
+    }
+    if (count(json_decode($message))){
+      $this->messenger->addMessage('You have been added to the email lists');
+    }
+    else{
+      $this->messenger->addMessage('Error adding you to email lists');
     }
   }
 }

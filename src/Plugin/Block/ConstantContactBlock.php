@@ -5,7 +5,7 @@ namespace Drupal\constant_contact_block\Plugin\Block;
 use Drupal\constant_contact_block\Form\ConstantContactForm;
 use Drupal\constant_contact_block\services\ConstantContactDataInterface;
 use Drupal\constant_contact_block\services\ConstantContactInterface;
-use Drupal\constant_contact_block\services\ConstantContactManager;
+use Drupal\Core\Messenger\Messenger;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -23,18 +23,30 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class ConstantContactBlock extends BlockBase implements BlockPluginInterface, ContainerFactoryPluginInterface {
+
+  /**
+   * @var \Drupal\constant_contact_block\services\ConstantContactInterface
+   */
   protected $constantContactManager;
+  /**
+   * @var \Drupal\constant_contact_block\services\ConstantContactDataInterface
+   */
   protected $constantContactDataService;
   protected $contactLists;
+  /**
+   * @var \Drupal\Core\Messenger\Messenger
+   */
+  protected $messenger;
   private $lists = array();
   private $machineName;
 
   public function __construct(array $configuration, $plugin_id, $plugin_definition,
                               ConstantContactInterface $constantContactManager,
-                              ConstantContactDataInterface $constantContactDataService, ConfigFactory $configFactory) {
+                              ConstantContactDataInterface $constantContactDataService, ConfigFactory $configFactory, Messenger $messenger) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->constantContactManager = $constantContactManager;
     $this->constantContactDataService = $constantContactDataService;
+    $this->messenger = $messenger;
     $this->machineName = $this->getMachineNameSuggestion();
     $constantContantConfigs = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
 
@@ -52,7 +64,8 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
         return new static($configuration, $plugin_id, $plugin_definition,
           $container->get('constant_contact_block.manager_service'),
           $container->get('constant_contact_block.data_manager'),
-          $container->get('config.factory')
+          $container->get('config.factory'),
+          $container->get('messenger')
         );
     }
     /**
@@ -95,7 +108,7 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
     public function build() {
       $config = $this->getConfiguration();
       $machineName = $config['machineName'];
-      $constantContactForm = new ConstantContactForm($machineName, $config['constant_contact_block_form_'.$machineName]);
+      $constantContactForm = new ConstantContactForm($machineName, $config['constant_contact_block_form_'.$machineName], $this->messenger);
       // $form = $form = \Drupal::formBuilder()->getForm('Drupal\constant_contact_block_form_\Form\ConstantContactForm', $parameter);
       $form = $form = \Drupal::formBuilder()->getForm($constantContactForm);
       return $form;

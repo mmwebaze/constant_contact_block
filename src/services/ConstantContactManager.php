@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Messenger\Messenger;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 
 class ConstantContactManager implements ConstantContactInterface {
   private $response;
@@ -14,17 +15,24 @@ class ConstantContactManager implements ConstantContactInterface {
   private $apiKey;
   private $token;
   private $header;
+  /**
+   * @var \GuzzleHttp\Client
+   */
   protected $client;
-  protected $messenger;
+
+  /**
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected $logger;
 
   /**
    * @var \Drupal\Core\Config\ConfigFactory
    */
   protected $configFactory;
 
-  public function __construct(Client $client, ConfigFactory $configFactory, Messenger $messenger) {
+  public function __construct(Client $client, ConfigFactory $configFactory, LoggerChannelFactoryInterface $logger) {
     $this->client = $client;
-    $this->messenger = $messenger;
+    $this->logger = $logger->get('constant_contact_block');
     $this->configFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
     $this->token = $this->configFactory->get('auth_token');
     $this->header = ['headers' => [
@@ -50,7 +58,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      $this->messenger->addMessage($e->getMessage());
+      $this->logger->error($e->getMessage());
       return $this;
     }
   }
@@ -62,12 +70,11 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      $this->messenger->addMessage($e->getMessage());
+      $this->logger->error($e->getMessage());
       return;
     }
   }
   public function getContactLists(){
-    //$this->authenticationService->login('', '');
     $endPoint = 'lists?api_key='.$this->apiKey;
     try{
       $result = $this->client->request('GET', $this->baseUrl.$endPoint, $this->header);
@@ -75,7 +82,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      $this->messenger->addMessage($e->getMessage());
+      $this->logger->error($e->getMessage());
       return;
     }
   }
@@ -98,7 +105,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      $this->messenger->addMessage($e->getMessage());
+      $this->logger->error($e->getMessage());
       return;
     }
   }
@@ -109,7 +116,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
-      $this->messenger->addMessage($e->getMessage());
+      $this->logger->error($e->getMessage());
       return;
     }
   }
@@ -135,9 +142,11 @@ class ConstantContactManager implements ConstantContactInterface {
         'Content-Type' => 'application/json',
         'headers' => $headers['headers']
       ]);
+
+      return $response->getBody()->getContents();
     }
     catch (RequestException $e){
-      $this->messenger->addMessage($e->getMessage());
+      $this->logger->error($e->getMessage());
       return;
     }
   }
@@ -156,7 +165,7 @@ class ConstantContactManager implements ConstantContactInterface {
       return $responseObj;
     }
     catch (RequestException $e){
-      $this->messenger->addMessage($e->getMessage());
+      $this->logger->error($e->getMessage());
       return;
     }
   }
