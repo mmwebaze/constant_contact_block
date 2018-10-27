@@ -119,6 +119,7 @@ class ConstantContactCampaignConfigForm extends ConfigFormBase{
       ->set('city', $form_state->getValue('city'))
       ->set('state', $form_state->getValue('state'))
       ->set('postal_code', $form_state->getValue('postal_code'))
+      ->set('country', $form_state->getValue('country'))
       ->set('from_email', $form_state->getValue('from_email'))
       ->set('reply_to_email', $form_state->getValue('reply_to_email'))
       ->set('permission_reminder_text', $form_state->getValue('permission_reminder_text'))
