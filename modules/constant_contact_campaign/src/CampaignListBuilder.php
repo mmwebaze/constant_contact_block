@@ -20,6 +20,7 @@ class CampaignListBuilder extends EntityListBuilder {
   public function buildHeader() {
     $header['id'] = $this->t('Campaign ID');
     $header['name'] = $this->t('Name');
+    $header['message'] = $this->t('message');
     return $header + parent::buildHeader();
   }
 
@@ -34,6 +35,7 @@ class CampaignListBuilder extends EntityListBuilder {
       'entity.campaign.edit_form',
       ['campaign' => $entity->id()]
     );
+    $row['message'] = $entity->getMessage();
     return $row + parent::buildRow($entity);
   }
 

@@ -77,8 +77,25 @@ class Campaign extends ContentEntityBase implements CampaignInterface {
   /**
    * {@inheritdoc}
    */
-  public function setName($name) {
-    $this->set('name', $name);
+  public function setName($message) {
+    $this->set('message', $message);
+    return $this;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getMessage() {
+    return $this->get('message')->value;
+  }
+
+  /**
+   * @param $message
+   *
+   * @return $this
+   */
+  public function setMessage($message) {
+    $this->set('message', $message);
     return $this;
   }
 
@@ -175,7 +192,7 @@ class Campaign extends ContentEntityBase implements CampaignInterface {
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Campaign entity.'))
+      ->setDescription(t('The name of the Campaign.'))
       ->setSettings([
         'max_length' => 50,
         'text_processing' => 0,
@@ -194,10 +211,29 @@ class Campaign extends ContentEntityBase implements CampaignInterface {
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
+    $fields['message'] = BaseFieldDefinition::create('string_long')
+      ->setLabel(t('message'))
+      ->setDescription(t('The Campaign message.'))
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textarea',
+        'weight' => -4,
+        'settings' => [
+          'rows' => 12,
+        ],
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'weight' => 0,
+        'label' => 'above',
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Campaign is published.'))
-      ->setDefaultValue(TRUE)
+      ->setDescription(t('A boolean indicating whether the Campaign should be sent.'))
+      ->setDefaultValue(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
         'weight' => -3,
@@ -205,11 +241,11 @@ class Campaign extends ContentEntityBase implements CampaignInterface {
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
-      ->setDescription(t('The time that the entity was created.'));
+      ->setDescription(t('The time that the campaign was created.'));
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the entity was last edited.'));
+      ->setDescription(t('The time that the campaign was last edited.'));
 
     return $fields;
   }
