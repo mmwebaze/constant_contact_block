@@ -7,6 +7,7 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_help
@@ -42,4 +43,12 @@ function constant_contact_campaign_form_node_constant_contact_campaign_form_alte
 function campaign_submitted_values(&$form, FormStateInterface $form_state){
   $campaignManager = \Drupal::service('constant_contact_campaign.manager');
   $campaignManager->createEmailCampaign();
+}
+
+function constant_contact_campaign_campaign_insert(EntityInterface $entity) {
+  drupal_set_message('Entity has been inserted: '.$entity->id());
+}
+
+function constant_contact_campaign_campaign_update(EntityInterface $entity){
+  drupal_set_message('Entity has been updated: '.$entity->id());
 }

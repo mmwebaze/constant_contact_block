@@ -1,0 +1,10 @@
+campaign_addition:
+  css:
+    theme:
+      css/constant_contact_campaign.css: {}
+  js:
+    js/constant_contact_campaign.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal

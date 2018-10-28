@@ -20,6 +20,11 @@ class CampaignForm extends ContentEntityForm {
     $form = parent::buildForm($form, $form_state);
 
     $entity = $this->entity;
+    $form['status']['#prefix'] = '<div class="campaign_status">';
+    $form['status']['#suffix'] = '</div>';
+
+    $form['#attached']['library'][] = 'constant_contact_campaign/campaign_addition';
+    $form['actions']['submit']['#value'] = 'Save campaign';
 
     return $form;
   }
@@ -46,5 +51,4 @@ class CampaignForm extends ContentEntityForm {
     }
     $form_state->setRedirect('entity.campaign.canonical', ['campaign' => $entity->id()]);
   }
-
 }
