@@ -37,18 +37,30 @@ class CampaignForm extends ContentEntityForm {
 
     $status = parent::save($form, $form_state);
 
+    $campaignStatus = $form_state->getValue('status')['value'];
+    $message = $this->queueCampaign($campaignStatus, $entity);
+
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label Campaign.', [
+        \Drupal::service('messenger')->addMessage($this->t('Created the %label Campaign'.$message, [
           '%label' => $entity->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Saved the %label Campaign.', [
+        \Drupal::service('messenger')->addMessage($this->t('Saved the %label Campaign'.$message, [
           '%label' => $entity->label(),
         ]));
     }
     $form_state->setRedirect('entity.campaign.canonical', ['campaign' => $entity->id()]);
+  }
+  private function queueCampaign($campaignStatus, $entity){
+    if ($campaignStatus == 1){
+      $campaignManager = \Drupal::service('constant_contact_campaign.manager');
+      $campaignManager->createEmailCampaign();
+
+      return ' & campaign will be sent.';
+    }
+    return '.';
   }
 }

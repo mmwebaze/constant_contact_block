@@ -44,11 +44,3 @@ function campaign_submitted_values(&$form, FormStateInterface $form_state){
   $campaignManager = \Drupal::service('constant_contact_campaign.manager');
   $campaignManager->createEmailCampaign();
 }
-
-function constant_contact_campaign_campaign_insert(EntityInterface $entity) {
-  drupal_set_message('Entity has been inserted: '.$entity->id());
-}
-
-function constant_contact_campaign_campaign_update(EntityInterface $entity){
-  drupal_set_message('Entity has been updated: '.$entity->id());
-}

@@ -21,6 +21,7 @@ class CampaignListBuilder extends EntityListBuilder {
     $header['id'] = $this->t('Campaign ID');
     $header['name'] = $this->t('Name');
     $header['message'] = $this->t('message');
+    $header['status'] = $this->t('status');
     return $header + parent::buildHeader();
   }
 
@@ -36,7 +37,7 @@ class CampaignListBuilder extends EntityListBuilder {
       ['campaign' => $entity->id()]
     );
     $row['message'] = $entity->getMessage();
+    $row['status'] = $entity->isPublished();
     return $row + parent::buildRow($entity);
   }
-
 }
