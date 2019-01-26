@@ -5,7 +5,6 @@
 	"homepage": "https://www.drupal.org/project/constant_contact_block",
 	"license": "GPL-2.0-or-later",
 	"require": {
-
 	},
 	"authors": [{
 		"name": "Michael Mwebaze",

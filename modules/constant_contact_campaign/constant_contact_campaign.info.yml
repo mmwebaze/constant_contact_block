@@ -1,0 +1,7 @@
+name: 'Constant Contact Campaign'
+type: module
+description: 'Creates and Sends Constant Contact Email Campaigns'
+core: 8.x
+package: 'Constant Contact'
+dependencies:
+  - constant_contact_block

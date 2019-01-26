@@ -94,11 +94,13 @@ class ConstantContactController extends ControllerBase {
         'id' => $list->id, 'name' => $list->name, 'list_id' => $list->list_id,
         'modified_date' => $list->modified_date, 'status' => $list->status,
         'contact_count' => $list->contact_count, 'created_date' => $list->created_date,
-        Link::fromTextAndUrl('Delete', Url::fromUserInput('/admin/constant_contact_block/list_delete/'.$list->id)),
+        Link::fromTextAndUrl('Delete', Url::fromUserInput('/admin/constant_contact_block/list_delete/'.$list->id.'/'.$list->name)),
       ];
     }
 
     $build = array(
+      '#prefix' => '<div class="cc_block_lists">',
+      '#suffix' => '</div>',
       'table' => [
         '#theme' => 'table',
         '#header' => array(
@@ -110,6 +112,11 @@ class ConstantContactController extends ControllerBase {
         '#rows' => $rows,
         '#empty' => t('No contact lists found locally.'),
       ],
+      '#attached' => array(
+        'library' => array(
+          'constant_contact_block/list_view',
+        ),
+      ),
     );
 
     $build['pager'] = array(

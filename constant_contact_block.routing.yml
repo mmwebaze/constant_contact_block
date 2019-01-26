@@ -9,7 +9,7 @@ constant_contact_block.constant_contant_config_form:
     _admin_route: TRUE
 
 constant_contact_block.delete_list_form:
-  path: '/admin/constant_contact_block/list_delete/{listId}'
+  path: '/admin/constant_contact_block/list_delete/{listId}/{listName}'
   defaults:
     _form: '\Drupal\constant_contact_block\Form\ConstantContactListDeleteForm'
     _title: 'Delete Contact List'

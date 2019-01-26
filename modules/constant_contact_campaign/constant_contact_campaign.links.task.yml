@@ -1,0 +1,22 @@
+# Campaign routing definition
+campaign.settings_tab:
+  route_name: campaign.settings
+  title: 'Settings'
+  base_route: campaign.settings
+
+entity.campaign.canonical:
+  route_name: entity.campaign.canonical
+  base_route: entity.campaign.canonical
+  title: 'View'
+
+entity.campaign.edit_form:
+  route_name: entity.campaign.edit_form
+  base_route: entity.campaign.canonical
+  title: 'Edit'
+
+entity.campaign.delete_form:
+  route_name:  entity.campaign.delete_form
+  base_route:  entity.campaign.canonical
+  title: Delete
+  weight: 10
+

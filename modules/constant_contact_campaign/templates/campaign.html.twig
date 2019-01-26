@@ -1,0 +1,22 @@
+{#
+/**
+ * @file campaign.html.twig
+ * Default theme implementation to present Campaign data.
+ *
+ * This template is used when viewing Campaign pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_campaign()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('campaign') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

@@ -5,3 +5,13 @@ constant_contact_block.import_lists:
     - core/jquery
     - core/jquery.once
     - core/drupal
+
+list_view:
+  css:
+    theme:
+      css/cc_block_list_view.css: {}
+
+list_delete:
+  css:
+    theme:
+      css/cc_block_list_delete.css: {}
