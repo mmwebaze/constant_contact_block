@@ -37,6 +37,9 @@ class ConstantContactManager implements ConstantContactInterface {
     $this->apiKey = $this->configFactory->get('api_key');
   }
 
+  /**
+   * @inheritdoc
+   */
   public function addContact($contact){
     $endPoint = 'contacts?api_key='.$this->apiKey;
     try{
@@ -54,6 +57,9 @@ class ConstantContactManager implements ConstantContactInterface {
       return $this;
     }
   }
+  /**
+   * @inheritdoc
+   */
   public function getContacts(){
     $endPoint = 'contacts?status=ALL&limit=50&api_key='.$this->apiKey;
     try{
@@ -66,6 +72,9 @@ class ConstantContactManager implements ConstantContactInterface {
       return;
     }
   }
+  /**
+   * @inheritdoc
+   */
   public function getContactLists(){
     //$this->authenticationService->login('', '');
     $endPoint = 'lists?api_key='.$this->apiKey;
@@ -79,6 +88,9 @@ class ConstantContactManager implements ConstantContactInterface {
       return;
     }
   }
+  /**
+   * @inheritdoc
+   */
   public function addContactList($name, $status = 'ACTIVE'){
 
     $contactList = new ContactList($name, $status);
@@ -102,6 +114,9 @@ class ConstantContactManager implements ConstantContactInterface {
       return;
     }
   }
+  /**
+   * @inheritdoc
+   */
   public function deleteContactList($listId){
     $endPoint = 'lists/'.$listId.'?api_key='.$this->apiKey;
     try{
@@ -113,6 +128,9 @@ class ConstantContactManager implements ConstantContactInterface {
       return;
     }
   }
+  /**
+   * @inheritdoc
+   */
   public function updateContant($contact, $lists){
     $endPoint = 'contacts/'.$contact->id.'?action_by=ACTION_BY_OWNER&api_key='.$this->apiKey;
     $headers = ['headers' => [
@@ -141,6 +159,9 @@ class ConstantContactManager implements ConstantContactInterface {
       return;
     }
   }
+  /**
+   * @inheritdoc
+   */
   public function checkContactExistsByEmail($email){
     $endPoint = 'contacts?email='.urlencode($email).'&status=ALL&limit=50&api_key='.$this->apiKey;
     $headers = [

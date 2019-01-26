@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ConstantContactListDeleteForm extends ConfirmFormBase {
 
   protected $listId;
+  protected $listName;
 
   /**
    * @var \Drupal\constant_contact_block\services\ConstantContactDataInterface
@@ -49,8 +50,15 @@ class ConstantContactListDeleteForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $listId = NULL){
+  public function buildForm(array $form, FormStateInterface $form_state, $listId = NULL, $listName = NULL){
     $this->listId = $listId;
+    $this->listName = $listName;
+
+    $form['#attached']['library'][] = 'constant_contact_block/list_delete';
+    $form['alert'] = array(
+      '#type' => 'markup',
+      '#markup' => '<div class="alert"><strong>Warning!</strong> Deletes the above list both locally and remotely.</div>'
+    );
 
     return parent::buildForm($form, $form_state);
   }
@@ -74,7 +82,7 @@ class ConstantContactListDeleteForm extends ConfirmFormBase {
    */
   public function getQuestion(){
 
-    return $this->t('Do you want to delete %listId', array('%listId' => $this->listId));
+    return $this->t('Do you want to delete list \'%listName\' with ID %listId', array('%listName' => $this->listName,'%listId' => $this->listId));
   }
   /**
    * {@inheritdoc}
