@@ -8,5 +8,8 @@ function constant_contact_block_theme($existing, $type, $theme, $path) {
     'constant_contact_block' => [
       'variables' => ['imported_data' => NULL],
     ],
+    'constant_contact_block_individual_lists' => [
+      'variables' => ['individual_lists' => NULL],
+    ],
   ];
 }

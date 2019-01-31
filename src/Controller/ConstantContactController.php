@@ -153,6 +153,22 @@ class ConstantContactController extends ControllerBase {
 
     return $form;
   }
+  /*public function unsubscribeConfirmation(Request $request){
+    $contactId = $request->attributes->get('update');
+
+    $individualLists = $this->constantContactService->getIndividualContactLists($contactId);
+    //print_r($individualLists); die('kkkk'.$contactId);
+    //$build
+
+    return array(
+      '#type' => 'markup',
+      '#theme' => 'constant_contact_block_individual_lists',
+      '#individual_lists' => $individualLists,
+      /*'#attached' => array(
+        'library' => array('map_block/map_block'),
+      ),*/
+    //);
+  //}
   /**
    * {@inheritdoc}
    */

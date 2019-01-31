@@ -40,6 +40,7 @@ class ConstantContactForm extends FormBase{
     $form['email_lists'] = array(
       '#type' => 'checkboxes',
       '#multiple' => TRUE,
+      '#title' => t('Lists:'),
       '#options' => $this->fields,
       '#required' => TRUE,
     );

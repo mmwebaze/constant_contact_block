@@ -3,3 +3,8 @@ api_key:
 client_secret:
 redirect_uri:
 auth_request_url: https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize
+#reasons:
+#    - 'I no longer want to receive these emails',
+#    - 'I never signed up for this mailing list',
+#    - 'The emails are inappropriate',
+#    - 'The emails are spam and should be reported',

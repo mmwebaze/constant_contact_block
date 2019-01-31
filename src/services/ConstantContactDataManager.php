@@ -22,6 +22,10 @@ class ConstantContactDataManager implements ConstantContactDataInterface{
     $this->connection = $connection;
   }
 
+  /**
+   * @inheritdoc
+   *
+   */
   public function addContactList($values){
     if(isset($values)){
       //$values = json_decode($values);
@@ -41,6 +45,10 @@ class ConstantContactDataManager implements ConstantContactDataInterface{
         ])->values($value)->execute();
     }
   }
+  /**
+   * @inheritdoc
+   *
+   */
   public function getContactLists(){
     $query = $this->connection->select('constant_contact_lists', 'ccl')
       ->fields('ccl');
@@ -48,12 +56,33 @@ class ConstantContactDataManager implements ConstantContactDataInterface{
     $results = $pager->execute()->fetchAll();
     return $results;
   }
+  /**
+   * @inheritdoc
+   *
+   */
   public function deleteList($listId){
     $query = $this->connection->delete('constant_contact_lists')
       ->condition('id', $listId);
     $query->execute();
   }
+  /**
+   * @inheritdoc
+   *
+   */
   public function deleteTable($table){
     $this->connection->truncate($table)->execute();
+  }
+  /**
+   * @inheritdoc
+   *
+   */
+  public function getContactList($listId){
+    $results = $this->connection->select('constant_contact_lists', 'ccl')
+      ->fields('ccl', ['name'])
+      ->condition('id', $listId, '=')
+      ->execute()
+      ->fetchAll();
+
+    return $results;
   }
 }

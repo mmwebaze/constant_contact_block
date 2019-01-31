@@ -89,6 +89,25 @@ class ConstantContantConfigForm extends ConfigFormBase {
       ),
     );
 
+    $title = $config->get('title');
+    $unsubscribeMessage = $config->get('message');
+
+    $form['constant_contact_unsubscribe'] = array(
+      '#type' => 'fieldset',
+      '#title' => $this->t('General Unsubscribe Settings'),
+    );
+    $form['constant_contact_unsubscribe']['title'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('Unsubscribe Title'),
+      '#default_value' => isset($title) ? $title : 'If you have a moment, please let us know why you unsubscribed:',
+      //'#required' => TRUE,
+    );
+    $form['message'] = array(
+      '#type' => 'textarea',
+      '#title' => $this->t('Unsubscribe message'),
+      '#default_value' => isset($unsubscribeMessage) ? $unsubscribeMessage : 'Message here:',
+    );
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -113,6 +132,8 @@ class ConstantContantConfigForm extends ConfigFormBase {
       ->set('auth_request_url', $form_state->getValue('auth_request_url'))
       ->set('auth_token', $form_state->getValue('auth_token'))
       ->set('data_src', $form_state->getValue('data_src'))
+      ->set('title', $form_state->getValue('title'))
+      ->set('message', $form_state->getValue('message'))
       ->save();
   }
 }

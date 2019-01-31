@@ -15,3 +15,14 @@ list_delete:
   css:
     theme:
       css/cc_block_list_delete.css: {}
+
+cc_block_unsubscribe:
+  css:
+    theme:
+      css/cc_block_unsubscribe.css: {}
+  js:
+    js/cc_block_unsubscribe.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal

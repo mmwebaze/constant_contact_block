@@ -16,6 +16,14 @@ constant_contact_block.delete_list_form:
   requirements:
     _permission: 'access administration pages'
 
+constant_contact_block.individual_lists:
+  path: 'individual/lists/{contactId}'
+  defaults:
+    _form: '\Drupal\constant_contact_block\Form\ConstantContactIndividualListsForm'
+    _title: 'My Communications Settings'
+  requirements:
+    _permission: 'access content'
+
 constant_contact_block.constant_contact_controller_getCode:
   path: '/constant_contact_block/getCode'
   defaults:
@@ -56,3 +64,11 @@ constant_contact_block.import_lists:
     importStatus: 0
   requirements:
     _permission: 'access administration pages'
+
+constant_contact_block.unsubscribe:
+  path: 'account/unsubscribe/{contactId}'
+  defaults:
+    _form: 'Drupal\constant_contact_block\Form\ConstantContactUnsubscribeForm'
+    _title: 'Unsubscribe Successful'
+  requirements:
+    _permission: 'access content'

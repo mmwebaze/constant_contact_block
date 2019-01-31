@@ -19,6 +19,15 @@ interface ConstantContactInterface
      */
     public function getContactLists();
 
+  /**
+   * Gets Constant Contact List by id
+   *
+   * @param $listId
+   *
+   * @return string json formatted string output
+   */
+    public function getContactList($listId);
+
     /**
      * Gets Constant Contact contacts
      *
@@ -46,17 +55,50 @@ interface ConstantContactInterface
 
   /**
    * Updates a contact to a Constant Contact list
+   *
    * @param $contact
+   * A Constant Contact
+   *
+   * @param array $lists
+   * Array of Constant Contact Lists a contact wants to belong to.
+   *
+   * @param boolean $isUpdateable
+   * Boolean value that determines whether a user is updating their communications
+   * settings. If true, then user is updating their settings otherwise user is
+   * registering to add their email to a list
    *
    * @return string json formatted string output
    */
-    public function updateContant($contact, $lists);
+    public function updateContant($contact, array $lists, $isUpdateable = FALSE);
 
   /**
    * Checks for the existence of a contact on Constant Contact by email
-   * @param $email
+   * @param string $email
    *
    * @return boolean
    */
     public function checkContactExistsByEmail($email);
+
+  /**
+   * Removes a contact from Constant Contact Lists
+   *
+   * @param string $contactId
+   * ContactId to be removed from Constant Contact Lists
+   *
+   * @param array $lists
+   * Lists from which email will be removed.
+   *
+   * @return mixed
+   */
+    public function removeContactFromLists($contactId, $lists = array());
+
+  /**
+   * Gets Constant Contact Lists a user is part of.
+   *
+   * @param $contactId
+   * Contact ID
+   *
+   * @return string json formatted output.
+   */
+    public function getContactById($contactId);
 }

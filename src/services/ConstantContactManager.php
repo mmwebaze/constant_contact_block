@@ -82,6 +82,20 @@ class ConstantContactManager implements ConstantContactInterface {
   /**
    * @inheritdoc
    */
+  public function getContactList($listId){
+    $endPoint = 'lists/'.$listId.'?api_key='.$this->apiKey;
+    try{
+      $result = $this->client->request('GET', $this->baseUrl.$endPoint, $this->header);
+      return $result->getBody()->getContents();
+    }
+    catch(RequestException $e){
+      $this->logger->error($e->getMessage());
+      return;
+    }
+  }
+  /**
+   * @inheritdoc
+   */
   public function getContactLists(){
     $endPoint = 'lists?api_key='.$this->apiKey;
     try{
@@ -137,7 +151,7 @@ class ConstantContactManager implements ConstantContactInterface {
   /**
    * @inheritdoc
    */
-  public function updateContant($contact, $lists){
+  public function updateContant($contact, array $lists, $isUpdateable = FALSE){
     $endPoint = 'contacts/'.$contact->id.'?action_by=ACTION_BY_OWNER&api_key='.$this->apiKey;
     $headers = ['headers' => [
 
@@ -146,12 +160,17 @@ class ConstantContactManager implements ConstantContactInterface {
       'Accept' => 'application/json'
     ]];
     $listIds = [];
-    foreach ($contact->lists as $list){
-      array_push($listIds, $list->id);
+    /*if ($isUpdateable){
+      print_r($list->id."\n");
+      die('TRUE MY FRIEND');
+    }*/
+    if (!$isUpdateable){
+      foreach ($contact->lists as $list){
+        array_push($listIds, $list->id);
+      }
     }
 
     $contact->lists = $this->objectInArray($lists, $listIds);
-
     try{
       $response = $this->client->put($this->baseUrl.$endPoint, [
         'debug' => TRUE,
@@ -208,5 +227,27 @@ class ConstantContactManager implements ConstantContactInterface {
     }
 
     return $updatedIdObj;
+  }
+  /**
+   * @inheritdoc
+   */
+  public function removeContactFromLists($contact, $lists = array()){
+    //$endPoint = 'contacts/'.$contact.'?action_by=ACTION_BY_OWNER&api_key='.$this->apiKey;
+  }
+  /**
+   * @inheritdoc
+   */
+  public function getContactById($contactId){
+    $endPoint = 'contacts/'.$contactId.'?api_key='.$this->apiKey;
+
+    try{
+      $result = $this->client->request('GET', $this->baseUrl.$endPoint, $this->header);
+      return $result->getBody()->getContents();
+    }
+    catch (RequestException $e) {
+      // log error $e
+      $this->logger->error($e->getMessage());
+      return;
+    }
   }
 }
