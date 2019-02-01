@@ -69,6 +69,6 @@ constant_contact_block.unsubscribe:
   path: 'account/unsubscribe/{contactId}'
   defaults:
     _form: 'Drupal\constant_contact_block\Form\ConstantContactUnsubscribeForm'
-    _title: 'Unsubscribe Successful'
+    #_title: 'Unsubscribe Successful'
   requirements:
     _permission: 'access content'

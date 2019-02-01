@@ -80,19 +80,6 @@ interface ConstantContactInterface
     public function checkContactExistsByEmail($email);
 
   /**
-   * Removes a contact from Constant Contact Lists
-   *
-   * @param string $contactId
-   * ContactId to be removed from Constant Contact Lists
-   *
-   * @param array $lists
-   * Lists from which email will be removed.
-   *
-   * @return mixed
-   */
-    public function removeContactFromLists($contactId, $lists = array());
-
-  /**
    * Gets Constant Contact Lists a user is part of.
    *
    * @param $contactId
@@ -101,4 +88,12 @@ interface ConstantContactInterface
    * @return string json formatted output.
    */
     public function getContactById($contactId);
+
+  /**
+   * @param $contactId
+   * Contact ID that will be deleted.
+   *
+   * @return string json formatted output.
+   */
+    public function deleteContact($contactId);
 }

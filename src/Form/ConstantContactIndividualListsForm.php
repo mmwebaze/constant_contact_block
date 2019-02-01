@@ -100,9 +100,8 @@ class ConstantContactIndividualListsForm extends FormBase {
   }
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $emailListValues = array_values($form_state->getValue('email_lists'));
-    //
+
     if(array_sum($emailListValues) == 0){
-      print_r(array_sum($emailListValues).'****');
       $form_state->setError($form, $this->t('At least one email list has to be selected.'));
     }
     parent::validateForm($form, $form_state);
@@ -113,7 +112,6 @@ class ConstantContactIndividualListsForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $selectedLists = $form_state->getValue('email_lists');
-    //$subscription = $form_state->getValue('subscribe_me');
 
     $lists = [];
     foreach ($selectedLists as $selectedList){
@@ -123,6 +121,7 @@ class ConstantContactIndividualListsForm extends FormBase {
         array_push($lists, $listObj);
       }
     }
+    $this->constantContactService->updateContant($this->contact, $lists, TRUE);
   }
   /**
    * {@inheritdoc}

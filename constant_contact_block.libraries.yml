@@ -26,3 +26,8 @@ cc_block_unsubscribe:
     - core/jquery
     - core/jquery.once
     - core/drupal
+
+cc_block_config:
+  css:
+    theme:
+      css/cc_block_config.css: {}

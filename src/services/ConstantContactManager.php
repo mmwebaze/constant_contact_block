@@ -160,10 +160,6 @@ class ConstantContactManager implements ConstantContactInterface {
       'Accept' => 'application/json'
     ]];
     $listIds = [];
-    /*if ($isUpdateable){
-      print_r($list->id."\n");
-      die('TRUE MY FRIEND');
-    }*/
     if (!$isUpdateable){
       foreach ($contact->lists as $list){
         array_push($listIds, $list->id);
@@ -231,12 +227,6 @@ class ConstantContactManager implements ConstantContactInterface {
   /**
    * @inheritdoc
    */
-  public function removeContactFromLists($contact, $lists = array()){
-    //$endPoint = 'contacts/'.$contact.'?action_by=ACTION_BY_OWNER&api_key='.$this->apiKey;
-  }
-  /**
-   * @inheritdoc
-   */
   public function getContactById($contactId){
     $endPoint = 'contacts/'.$contactId.'?api_key='.$this->apiKey;
 
@@ -246,6 +236,21 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       // log error $e
+      $this->logger->error($e->getMessage());
+      return;
+    }
+  }
+  /**
+   * @inheritdoc
+   */
+  public function deleteContact($contactId){
+    $endPoint = 'contacts/'.$contactId.'?api_key='.$this->apiKey;
+
+    try{
+      $result = $this->client->request('DELETE', $this->baseUrl.$endPoint, $this->header);
+      return $result->getBody()->getContents();
+    }
+    catch (RequestException $e){
       $this->logger->error($e->getMessage());
       return;
     }

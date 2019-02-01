@@ -91,10 +91,13 @@ class ConstantContantConfigForm extends ConfigFormBase {
 
     $title = $config->get('title');
     $unsubscribeMessage = $config->get('message');
+    $unsubscribeReasons = $config->get('reasons');
 
     $form['constant_contact_unsubscribe'] = array(
       '#type' => 'fieldset',
       '#title' => $this->t('General Unsubscribe Settings'),
+      '#prefix' => '<div class="unsubscribe_wrapper">',
+      '#suffix' => '</div>',
     );
     $form['constant_contact_unsubscribe']['title'] = array(
       '#type' => 'textfield',
@@ -102,11 +105,21 @@ class ConstantContantConfigForm extends ConfigFormBase {
       '#default_value' => isset($title) ? $title : 'If you have a moment, please let us know why you unsubscribed:',
       //'#required' => TRUE,
     );
-    $form['message'] = array(
+    $form['constant_contact_unsubscribe']['message'] = array(
       '#type' => 'textarea',
       '#title' => $this->t('Unsubscribe message'),
       '#default_value' => isset($unsubscribeMessage) ? $unsubscribeMessage : 'Message here:',
     );
+    $form['constant_contact_unsubscribe']['reasons'] = array(
+      '#type' => 'textarea',
+      '#title' => $this->t('Unsubscribe reasons'),
+      '#description'=> 'Separate each reason with a |',
+      '#cols' => 70,
+      '#rows' => 5,
+      '#default_value' => isset($unsubscribeReasons) ? $unsubscribeReasons : '',
+    );
+
+    $form['#attached']['library'][] = 'constant_contact_block/cc_block_config';
 
     return parent::buildForm($form, $form_state);
   }
@@ -122,7 +135,7 @@ class ConstantContantConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    parent::submitForm($form, $form_state);
+    //parent::submitForm($form, $form_state);
 
     $this->config('constant_contact_block.constantcontantconfig')
       ->set('base_url', $form_state->getValue('base_url'))
@@ -134,6 +147,7 @@ class ConstantContantConfigForm extends ConfigFormBase {
       ->set('data_src', $form_state->getValue('data_src'))
       ->set('title', $form_state->getValue('title'))
       ->set('message', $form_state->getValue('message'))
+      ->set('reasons', $form_state->getValue('reasons'))
       ->save();
   }
 }

@@ -3,6 +3,10 @@ api_key:
 client_secret:
 redirect_uri:
 auth_request_url: https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize
+auth_token:
+data_src: '1'
+title: 'If you have a moment, please let us know why you unsubscribed***:'
+message: "Are you really sure you wanted to leave? If so, we're sad to see you go. We work hard to curate the right content for you. <br/>\r\n\r\nWe would love feedback on why you left to know how we can improve.<br/>\r\n\r\n<b>Thanks,<br/>\r\nAdministrator & Editor </b>"
 #reasons:
 #    - 'I no longer want to receive these emails',
 #    - 'I never signed up for this mailing list',
