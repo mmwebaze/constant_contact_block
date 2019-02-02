@@ -79,15 +79,6 @@ class ConstantContactUnsubscribeForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Unsubscribe'),
       '#button_type' => 'primary',
-      /*'#ajax' => array(
-        'callback' => '::processUnsubscribe',
-        'wrapper' => 'constant-contact-block-form-wrapper',
-        'event' => 'click',
-        'progress' => array(
-          'type' => 'throbber',
-          'message' => $this->t('Processing ...'),
-        ),
-      ),*/
     );
     $form['#attached']['library'][] = 'constant_contact_block/cc_block_unsubscribe';
 
