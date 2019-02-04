@@ -58,15 +58,13 @@ class ConstantContactIndividualListsForm extends FormBase {
       '#markup' => '<a href='.$unsubscribelink.'>Unsubscribe here</a>'
     );
     $form['employee_mail'] = array(
-      '#type' => 'email',
-      '#title' => t('Email:'),
-      '#required' => TRUE,
-      '#default_value' => $email,
+      '#type' => 'markup',
+      '#markup' => '<div >Your Email: <b>'.$email.'</b></div>',
     );
     $form['email_lists'] = array(
       '#type' => 'checkboxes',
       '#multiple' => TRUE,
-      '#title' => t('Email Lists I am in:'),
+      '#title' => $this->t('Email Lists I am in:'),
       '#options' => $lists,
       '#required' => TRUE,
       '#default_value' => array_keys($lists),
@@ -74,20 +72,7 @@ class ConstantContactIndividualListsForm extends FormBase {
       '#suffix' => '</div>',
     );
 
-    /*$form['subscribe_me'] = array(
-      '#type' => 'radios',
-      '#title' => t('Unsubscribe me'),
-      '#options' => array(
-        'ACTIVE' => 'I\'d like to continue receiving communications from the selected lists.',
-        'REMOVED' => 'I\'d like to be removed from all lists I am subscribed to.'
-      ),
-      '#required' => TRUE,
-      '#default_value' => $this->contact->status,
-      '#prefix' => '<div>',
-      '#suffix' => '</div>',
-    );
-
-    $form['#attached']['library'][] = 'constant_contact_block/cc_block_settings';*/
+    /*$form['#attached']['library'][] = 'constant_contact_block/cc_block_settings';*/
 
     $form['actions']['#type'] = 'actions';
     $form['actions']['submit'] = array(

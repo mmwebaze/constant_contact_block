@@ -2,6 +2,7 @@
 
 namespace Drupal\constant_contact_block\Form;
 
+use Drupal\constant_contact_block\configurations\DefaultConfiguration;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -102,13 +103,13 @@ class ConstantContantConfigForm extends ConfigFormBase {
     $form['constant_contact_unsubscribe']['title'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Unsubscribe Title'),
-      '#default_value' => isset($title) ? $title : 'If you have a moment, please let us know why you unsubscribed:',
+      '#default_value' => isset($title) ? $title : DefaultConfiguration::getUnsubscribeTitle(),
       //'#required' => TRUE,
     );
     $form['constant_contact_unsubscribe']['message'] = array(
       '#type' => 'textarea',
       '#title' => $this->t('Unsubscribe message'),
-      '#default_value' => isset($unsubscribeMessage) ? $unsubscribeMessage : 'Message here:',
+      '#default_value' => isset($unsubscribeMessage) ? $unsubscribeMessage : DefaultConfiguration::getUnsubscribeMessage(),
     );
     $form['constant_contact_unsubscribe']['reasons'] = array(
       '#type' => 'textarea',
@@ -116,7 +117,7 @@ class ConstantContantConfigForm extends ConfigFormBase {
       '#description'=> 'Separate each reason with a |',
       '#cols' => 70,
       '#rows' => 5,
-      '#default_value' => isset($unsubscribeReasons) ? $unsubscribeReasons : '',
+      '#default_value' => isset($unsubscribeReasons) ? $unsubscribeReasons : implode('|', DefaultConfiguration::getUnsubscribeReasons()),
     );
 
     $form['#attached']['library'][] = 'constant_contact_block/cc_block_config';

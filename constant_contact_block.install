@@ -1,4 +1,5 @@
 <?php
+use \Drupal\constant_contact_block\configurations\DefaultConfiguration;
 /**
  * implements hook_schema
  */
@@ -60,4 +61,15 @@ function constant_contact_block_schema(){
   );
 
   return $schema;
+}
+
+/**
+ * Updates constant_contact_block configuration items with unsubscribe settings.
+ */
+function constant_contact_block_update_8101(&$sandbox) {
+  $config = \Drupal::service('config.factory')->getEditable('constant_contact_block.constantcontantconfig');
+  $config->set('title', DefaultConfiguration::getUnsubscribeTitle())
+    ->set('message', DefaultConfiguration::getUnsubscribeMessage())
+    ->set('reasons', implode('|', DefaultConfiguration::getUnsubscribeReasons()))
+    ->save();
 }
