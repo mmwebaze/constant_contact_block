@@ -1,0 +1,5 @@
+entity.reason.add_form:
+  route_name: entity.reason.add_form
+  title: 'Add Reason'
+  appears_on:
+    - entity.reason.collection

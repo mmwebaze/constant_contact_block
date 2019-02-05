@@ -1,0 +1,22 @@
+# Reason routing definition
+reason.settings_tab:
+  route_name: reason.settings
+  title: 'Settings'
+  base_route: reason.settings
+
+entity.reason.canonical:
+  route_name: entity.reason.canonical
+  base_route: entity.reason.canonical
+  title: 'View'
+
+entity.reason.edit_form:
+  route_name: entity.reason.edit_form
+  base_route: entity.reason.canonical
+  title: 'Edit'
+
+entity.reason.delete_form:
+  route_name:  entity.reason.delete_form
+  base_route:  entity.reason.canonical
+  title: Delete
+  weight: 10
+

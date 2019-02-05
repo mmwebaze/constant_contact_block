@@ -1,0 +1,19 @@
+add reason entities:
+  title: 'Create new Reason entities'
+
+administer reason entities:
+  title: 'Administer Reason entities'
+  description: 'Allow to access the administration form to configure Reason entities.'
+  restrict access: true
+
+delete reason entities:
+  title: 'Delete Reason entities'
+
+edit reason entities:
+  title: 'Edit Reason entities'
+
+view published reason entities:
+  title: 'View published Reason entities'
+
+view unpublished reason entities:
+  title: 'View unpublished Reason entities'

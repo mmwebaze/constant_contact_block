@@ -1,0 +1,22 @@
+{#
+/**
+ * @file reason.html.twig
+ * Default theme implementation to present Reason data.
+ *
+ * This template is used when viewing Reason pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_reason()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('reason') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>
