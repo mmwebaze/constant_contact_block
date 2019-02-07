@@ -40,11 +40,11 @@ entity.reason.collection:
   title: 'Reason list'
   route_name: entity.reason.collection
   description: 'List Reason entities'
-  parent: system.admin_structure
+  parent: 'constant_contact_block.main_menu'
   weight: 100
 
 reason.admin.structure.settings:
   title: 'Reason settings'
   description: 'Configure Reason entities'
   route_name: reason.settings
-  parent: system.admin_structure
+  parent: 'constant_contact_block.main_menu'

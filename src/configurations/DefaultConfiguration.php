@@ -5,10 +5,10 @@ class DefaultConfiguration {
   public static function getUnsubscribeReasons(){
 
     $reasons = array(
-      'I no longer want to receive these emails***',
+      'I no longer want to receive these emails',
       'I never signed up for this mailing list',
       'The emails are inappropriate',
-      'The emails are spam and should be reported##'
+      'The emails are spam and should be reported'
     );
 
     return $reasons;

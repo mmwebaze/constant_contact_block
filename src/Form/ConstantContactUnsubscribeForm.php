@@ -11,8 +11,13 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\CssCommand;
 use Drupal\constant_contact_block\services\ConstantContactInterface;
+use Drupal\constant_contact_block\services\ReasonServiceInterface;
 
 class ConstantContactUnsubscribeForm extends FormBase {
+    /**
+     * @var ReasonServiceInterface
+     */
+    protected $reasonService;
   private $reasons;
   /**
    * @var \Drupal\constant_contact_block\services\ConstantContactInterface
@@ -23,9 +28,18 @@ class ConstantContactUnsubscribeForm extends FormBase {
    * @var \Drupal\Core\Config\Config|\Drupal\Core\Config\ImmutableConfig
    */
   protected $configFactory;
-  public function __construct(ConfigFactory $configFactory, ConstantContactInterface $constantContactService) {
+
+    /**
+     * ConstantContactUnsubscribeForm constructor.
+     * @param ConfigFactory $configFactory
+     * @param ConstantContactInterface $constantContactService
+     * @param ReasonServiceInterface $reasonService
+     */
+  public function __construct(ConfigFactory $configFactory, ConstantContactInterface $constantContactService,
+                              ReasonServiceInterface $reasonService) {
     $this->configFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
     $this->constantContactService = $constantContactService;
+    $this->reasonService = $reasonService;
   }
   /**
    * {@inheritdoc}
@@ -40,10 +54,7 @@ class ConstantContactUnsubscribeForm extends FormBase {
     $title = $this->configFactory->get('title');
 
     $unsubscribeMessage = $this->configFactory->get('message');
-    $unsubscribeReasons = $this->configFactory->get('reasons');
-
-    $this->reasons = explode('|', $unsubscribeReasons);
-    array_push($this->reasons, 'Other (fill in reason below)');
+    $this->reasons = $this->reasonService->getReasons();
 
     $form['#prefix'] = '<div class="constant-contact-block-form-wrapper">';
     $form['#suffix'] = '</div>';
@@ -89,7 +100,10 @@ class ConstantContactUnsubscribeForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $contactId = $form_state->getValue('contact_id');
-    $this->constantContactService->deleteContact($contactId);
+    $selectedReason = $form_state->getValue('unsubscribe_reasons');
+
+    //$this->constantContactService->deleteContact($contactId);
+    $this->reasonService->updateNumberLeft($selectedReason);
   }
   public function otherReason(array &$form, FormStateInterface $form_state){
     $ajaxResponse = new AjaxResponse();
@@ -114,7 +128,8 @@ class ConstantContactUnsubscribeForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get( 'config.factory'),
-      $container->get('constant_contact_block.manager_service')
+      $container->get('constant_contact_block.manager_service'),
+      $container->get('constant_contact_block.reason_manager')
     );
   }
 }

@@ -66,10 +66,35 @@ function constant_contact_block_schema(){
 /**
  * Updates constant_contact_block configuration items with unsubscribe settings.
  */
-function constant_contact_block_update_8101(&$sandbox) {
+function constant_contact_block_update_8100() {
   $config = \Drupal::service('config.factory')->getEditable('constant_contact_block.constantcontantconfig');
   $config->set('title', DefaultConfiguration::getUnsubscribeTitle())
     ->set('message', DefaultConfiguration::getUnsubscribeMessage())
     ->set('reasons', implode('|', DefaultConfiguration::getUnsubscribeReasons()))
     ->save();
+  $defaultReasons = DefaultConfiguration::getUnsubscribeReasons();
+  $reasonManager = \Drupal::service('constant_contact_block.reason_manager');
+
+  foreach ($defaultReasons as $defaultReason){
+    $reasonManager->createReason([
+      'name' => $defaultReason,
+      'status' => 1,
+      'user_id' => \Drupal::currentUser()->id()
+    ]);
+  }
+}
+/**
+ * Updates constant_contact_block configuration items with unsubscribe settings.
+ */
+function constant_contact_block_update_8101() {
+    $defaultReasons = DefaultConfiguration::getUnsubscribeReasons();
+    $reasonManager = \Drupal::service('constant_contact_block.reason_manager');
+
+    foreach ($defaultReasons as $defaultReason){
+        $reasonManager->createReason([
+            'name' => $defaultReason,
+            'status' => 0,
+            'user_id' => \Drupal::currentUser()->id()
+        ]);
+    }
 }

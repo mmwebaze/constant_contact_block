@@ -20,6 +20,9 @@ class ReasonListBuilder extends EntityListBuilder {
   public function buildHeader() {
     $header['id'] = $this->t('Reason ID');
     $header['name'] = $this->t('Name');
+    $header['number_left'] = $this->t('Number unsubscribed');
+    $header['status'] = $this->t('Enabled Reasons');
+    $header['weight'] = $this->t('Weight');
     return $header + parent::buildHeader();
   }
 
@@ -34,6 +37,9 @@ class ReasonListBuilder extends EntityListBuilder {
       'entity.reason.edit_form',
       ['reason' => $entity->id()]
     );
+    $row['number_left'] = $entity->getNumberLeft();
+    $row['status'] = $entity->isPublished();
+    $row['weight'] = $entity->getWeight();
     return $row + parent::buildRow($entity);
   }
 

@@ -141,7 +141,6 @@ class Reason extends ContentEntityBase implements ReasonInterface {
     $this->set('status', $published ? TRUE : FALSE);
     return $this;
   }
-
   /**
    * {@inheritdoc}
    */
@@ -175,9 +174,9 @@ class Reason extends ContentEntityBase implements ReasonInterface {
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Reason entity.'))
+      ->setDescription(t('The reason for leaving the group list(s).'))
       ->setSettings([
-        'max_length' => 50,
+        'max_length' => 255,
         'text_processing' => 0,
       ])
       ->setDefaultValue('')
@@ -194,9 +193,30 @@ class Reason extends ContentEntityBase implements ReasonInterface {
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
+    $fields['number_left'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Number Left'))
+      ->setDescription(t('The number of users who have selected this reason for unsubscribing from a group list.'))
+      ->setDefaultValue(0)
+      ->setReadOnly(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => -4,
+      ]);
+      $fields['weight'] = BaseFieldDefinition::create('integer')
+          ->setLabel(t('Weight'))
+          ->setDescription(t('The weight of the reason that determines its position in a list.'))
+          ->setDefaultValue(0)
+          ->setReadOnly(TRUE)
+          ->setDisplayConfigurable('form', TRUE)
+          ->setDisplayOptions('form', [
+              'type' => 'string_textfield',
+              'weight' => -4,
+      ]);
+
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Reason is published.'))
+      ->setDescription(t('A boolean indicating whether the Reason can be selected by users unsubscribing from group lists.'))
       ->setDefaultValue(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
@@ -213,5 +233,16 @@ class Reason extends ContentEntityBase implements ReasonInterface {
 
     return $fields;
   }
-
+  public function setNumberLeft($numberLeft){
+    $this->set('number_left', $numberLeft);
+  }
+  public function getNumberLeft(){
+    return $this->get('number_left')->value;
+  }
+  public function setWeight($weight){
+      $this->set('weight', $weight);
+  }
+  public function getWeight(){
+      return $this->get('weight')->value;
+  }
 }
