@@ -1,9 +1,0 @@
-constant_contact_campaign_config_form:
-  path: '/admin/config/constant_contact_campaign/config'
-  defaults:
-    _form: '\Drupal\constant_contact_campaign\Form\ConstantContactCampaignConfigForm'
-    _title: 'Constant Contant Campaign Settings'
-  requirements:
-    _permission: 'access administration pages'
-  options:
-    _admin_route: TRUE

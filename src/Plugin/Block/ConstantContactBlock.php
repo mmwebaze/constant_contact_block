@@ -84,6 +84,9 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
         $listOptions[$contactList->id] = $contactList->name;
       }
       $this->contactLists = $listOptions;
+      $form['first_name'] = array(
+
+      );
 
       $emailLists = [];
       if (isset($config['cc_email_'.$this->machineName])){

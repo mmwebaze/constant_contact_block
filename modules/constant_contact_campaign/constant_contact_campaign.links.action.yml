@@ -1,5 +1,0 @@
-entity.campaign.add_form:
-  route_name: entity.campaign.add_form
-  title: 'Add Campaign'
-  appears_on:
-    - entity.campaign.collection
