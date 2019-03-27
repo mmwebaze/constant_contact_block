@@ -1,0 +1,13 @@
+fields:
+  first_name:
+    type: 'textfield'
+    title: 'First name'
+    required: TRUE
+  last_name:
+    type: 'textfield'
+    title: 'Last name'
+    required: FALSE
+  company_name:
+    type: 'textfield'
+    title: 'Company name'
+    required: FALSE
