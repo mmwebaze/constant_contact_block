@@ -53,7 +53,6 @@ class ConstantContactController extends ControllerBase {
    *
    */
   public function getAuthorization(){
-
     $url = $this->authenticationService->getAuthorizationUrl();
 
     if (!$url){
