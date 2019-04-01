@@ -2,8 +2,8 @@ constant_contact_block.main_menu:
   title: 'Constant Contact'
   description: 'Manage Constant Contact lists.'
   route_name: 'constant_contact_block.main_menu'
-  weight: -9
-  parent: 'system.admin'
+  weight: 30
+  parent: 'system.admin_config'
 
 constant_contact_block.view_lists:
   title: 'Contact Lists'
