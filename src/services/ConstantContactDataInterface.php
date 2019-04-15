@@ -2,19 +2,20 @@
 
 namespace Drupal\constant_contact_block\services;
 
-
+/**
+ *
+ */
 interface ConstantContactDataInterface {
 
   /**
-   * Adds Constant Contact Lists to database
+   * Adds Constant Contact Lists to database.
    *
    * @param $values
-   *
    */
   public function addContactList($values);
 
   /**
-   * Gets locally stored Constant Contact Lists
+   * Gets locally stored Constant Contact Lists.
    */
   public function getContactLists();
 
@@ -30,16 +31,16 @@ interface ConstantContactDataInterface {
   /**
    * Deletes a Constant Contact List locally.
    *
-   * @param integer $listId
-   *Constant Contact List Id
+   * @param int $listId
+   *   Constant Contact List Id.
    */
   public function deleteList($listId);
 
   /**
-   * Deletes all locally stored lists from database
+   * Deletes all locally stored lists from database.
    *
    * @param string $table
-   *
    */
   public function deleteTable($table);
+
 }

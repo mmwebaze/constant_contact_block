@@ -109,7 +109,7 @@ class ConstantContactController extends ControllerBase {
           'created_date' => $this->t('created date'), 'operations' => $this->t('operations')
         ),
         '#rows' => $rows,
-        '#empty' => t('No contact lists found locally.'),
+        '#empty' => $this->t('No contact lists found locally.'),
       ],
       '#attached' => array(
         'library' => array(

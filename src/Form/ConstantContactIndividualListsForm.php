@@ -8,6 +8,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\constant_contact_block\services\ConstantContactInterface;
 use Drupal\constant_contact_block\services\ConstantContactDataInterface;
 
+/**
+ *
+ */
 class ConstantContactIndividualListsForm extends FormBase {
   /**
    * @var \Drupal\constant_contact_block\services\ConstantContactInterface
@@ -19,16 +22,22 @@ class ConstantContactIndividualListsForm extends FormBase {
    */
   protected $constantContactDataService;
   private $contact;
-  public function __construct(ConstantContactInterface $constantContactService, ConstantContactDataInterface $constantContactDataService){
+
+  /**
+   *
+   */
+  public function __construct(ConstantContactInterface $constantContactService, ConstantContactDataInterface $constantContactDataService) {
     $this->constantContactService = $constantContactService;
     $this->constantContactDataService = $constantContactDataService;
   }
+
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
     return 'constant_contact_block_individual_lists_form_';
   }
+
   /**
    * {@inheritdoc}
    */
@@ -38,30 +47,30 @@ class ConstantContactIndividualListsForm extends FormBase {
 
     $email = $this->contact->email_addresses[0]->email_address;
 
-    $lists = array();
-    foreach ($this->contact->lists as $list){
+    $lists = [];
+    foreach ($this->contact->lists as $list) {
 
-      if ($list->status == 'ACTIVE'){
+      if ($list->status == 'ACTIVE') {
         $result = $this->constantContactDataService->getContactList($list->id);
         $listName = $result[0]->name;
 
-        if (empty($result)){
+        if (empty($result)) {
           $result = $this->constantContactService->getContactList($list->id);
           $listName = json_decode($result)->name;
         }
         $lists[$list->id] = $listName;
       }
     }
-    $unsubscribelink = '/account/unsubscribe/'. $contactId;
-    $form['unsubscribe_link'] = array(
+    $unsubscribelink = '/account/unsubscribe/' . $contactId;
+    $form['unsubscribe_link'] = [
       '#type' => 'markup',
-      '#markup' => '<a href='.$unsubscribelink.'>Unsubscribe here</a>'
-    );
-    $form['employee_mail'] = array(
+      '#markup' => '<a href=' . $unsubscribelink . '>Unsubscribe here</a>',
+    ];
+    $form['employee_mail'] = [
       '#type' => 'markup',
-      '#markup' => '<div >Your Email: <b>'.$email.'</b></div>',
-    );
-    $form['email_lists'] = array(
+      '#markup' => '<div >Your Email: <b>' . $email . '</b></div>',
+    ];
+    $form['email_lists'] = [
       '#type' => 'checkboxes',
       '#multiple' => TRUE,
       '#title' => $this->t('Email Lists I am in:'),
@@ -70,23 +79,27 @@ class ConstantContactIndividualListsForm extends FormBase {
       '#default_value' => array_keys($lists),
       '#prefix' => '<div>',
       '#suffix' => '</div>',
-    );
+    ];
 
     /*$form['#attached']['library'][] = 'constant_contact_block/cc_block_settings';*/
 
     $form['actions']['#type'] = 'actions';
-    $form['actions']['submit'] = array(
+    $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Save Settings'),
       '#button_type' => 'primary',
-    );
+    ];
 
     return $form;
   }
+
+  /**
+   *
+   */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $emailListValues = array_values($form_state->getValue('email_lists'));
 
-    if(array_sum($emailListValues) == 0){
+    if (array_sum($emailListValues) == 0) {
       $form_state->setError($form, $this->t('At least one email list has to be selected.'));
     }
     parent::validateForm($form, $form_state);
@@ -99,8 +112,8 @@ class ConstantContactIndividualListsForm extends FormBase {
     $selectedLists = $form_state->getValue('email_lists');
 
     $lists = [];
-    foreach ($selectedLists as $selectedList){
-      if ($selectedList != 0){
+    foreach ($selectedLists as $selectedList) {
+      if ($selectedList != 0) {
         $listObj = new \stdClass();
         $listObj->id = $selectedList;
         array_push($lists, $listObj);
@@ -108,6 +121,7 @@ class ConstantContactIndividualListsForm extends FormBase {
     }
     $this->constantContactService->updateContant($this->contact, $lists, TRUE);
   }
+
   /**
    * {@inheritdoc}
    */
@@ -117,4 +131,5 @@ class ConstantContactIndividualListsForm extends FormBase {
       $container->get('constant_contact_block.data_manager')
     );
   }
+
 }

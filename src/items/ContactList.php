@@ -2,20 +2,35 @@
 
 namespace Drupal\constant_contact_block\items;
 
-
+/**
+ *
+ */
 class ContactList implements \JsonSerializable {
   private $name;
   private $status;
+
+  /**
+   *
+   */
   public function __construct($name, $status) {
     $this->name = $name;
     $this->status = $status;
   }
-  public function getName(){
+
+  /**
+   *
+   */
+  public function getName() {
     return $this->name;
   }
-  public function getStatus(){
+
+  /**
+   *
+   */
+  public function getStatus() {
     return $this->status;
   }
+
   /**
    * Json Serialize.
    *
@@ -27,4 +42,5 @@ class ContactList implements \JsonSerializable {
 
     return $vars;
   }
+
 }

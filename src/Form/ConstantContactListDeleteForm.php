@@ -50,40 +50,44 @@ class ConstantContactListDeleteForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $listId = NULL, $listName = NULL){
+  public function buildForm(array $form, FormStateInterface $form_state, $listId = NULL, $listName = NULL) {
     $this->listId = $listId;
     $this->listName = $listName;
 
     $form['#attached']['library'][] = 'constant_contact_block/list_delete';
-    $form['alert'] = array(
+    $form['alert'] = [
       '#type' => 'markup',
-      '#markup' => '<div class="alert"><strong>Warning!</strong> Deletes the above list both locally and remotely.</div>'
-    );
+      '#markup' => '<div class="alert"><strong>Warning!</strong> Deletes the above list both locally and remotely.</div>',
+    ];
 
     return parent::buildForm($form, $form_state);
   }
+
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state){
+  public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->constantContactDataService->deleteList($this->listId);
     $this->constantContactService->deleteContactList($this->listId);
 
     $form_state->setRedirect('constant_contact_block.view_lists');
   }
+
   /**
    * {@inheritdoc}
    */
-  public function getCancelUrl(){
+  public function getCancelUrl() {
     return new Url('constant_contact_block.view_lists');
   }
+
   /**
    * {@inheritdoc}
    */
-  public function getQuestion(){
+  public function getQuestion() {
 
-    return $this->t('Do you want to delete list \'%listName\' with ID %listId', array('%listName' => $this->listName,'%listId' => $this->listId));
+    return $this->t('Do you want to delete list \'%listName\' with ID %listId', ['%listName' => $this->listName, '%listId' => $this->listId]);
   }
+
   /**
    * {@inheritdoc}
    */
@@ -93,4 +97,5 @@ class ConstantContactListDeleteForm extends ConfirmFormBase {
       $container->get('constant_contact_block.manager_service')
     );
   }
+
 }

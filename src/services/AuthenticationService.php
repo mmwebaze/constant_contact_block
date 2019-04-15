@@ -2,12 +2,13 @@
 
 namespace Drupal\constant_contact_block\services;
 
-
 use Drupal\constant_contact_block\authentication\ConstantContactAuth2;
 use Drupal\Core\Config\ConfigFactory;
 
-class AuthenticationService implements AuthenticationServiceInterface
-{
+/**
+ *
+ */
+class AuthenticationService implements AuthenticationServiceInterface {
   protected $redirectUri;
   protected $clientId;
   protected $clientSecret;
@@ -15,13 +16,15 @@ class AuthenticationService implements AuthenticationServiceInterface
   protected $code = 'code';
   protected $auth;
   protected $authRequestUrl;
-  //protected $authRequestUrl = 'https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize';
 
   /**
    * @var \Drupal\Core\Config\ConfigFactory
    */
   protected $configFactory;
 
+  /**
+   *
+   */
   public function __construct(ConfigFactory $configFactory) {
     $this->configFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
     $this->authRequestUrl = $this->configFactory->get('auth_request_url');
@@ -32,24 +35,28 @@ class AuthenticationService implements AuthenticationServiceInterface
   }
 
   /**
-   * Get the URL at which the user can authenticate and authorize the requesting application
+   * Get the URL at which the user can authenticate and authorize the requesting application.
    *
    * @return string
    */
   public function getAuthorizationUrl() {
 
     if ((isset($this->clientId) && isset($this->authRequestUrl) && isset($this->clientSecret)
-      && isset($this->redirectUri))){
+      && isset($this->redirectUri))) {
       $oauthSignup = 'true';
-      $authUrl = $this->authRequestUrl.'?response_type=code&client_id='.$this->clientId.'&oauthSignup='.$oauthSignup.'&redirect_uri='.$this->redirectUri;
+      $authUrl = $this->authRequestUrl . '?response_type=code&client_id=' . $this->clientId . '&oauthSignup=' . $oauthSignup . '&redirect_uri=' . $this->redirectUri;
 
       return $authUrl;
     }
-    else{
+    else {
 
       return FALSE;
     }
   }
+
+  /**
+   *
+   */
   public function getAccessToken($code) {
 
     $params = [
@@ -60,4 +67,5 @@ class AuthenticationService implements AuthenticationServiceInterface
     ];
     return $this->auth->getAccessToken($code, $params);
   }
+
 }

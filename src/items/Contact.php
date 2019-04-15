@@ -2,17 +2,26 @@
 
 namespace Drupal\constant_contact_block\items;
 
-
+/**
+ *
+ */
 class Contact implements \JsonSerializable {
   private $status;
   private $first_name;
   private $last_name;
-  private $email_addresses = array();
+  private $email_addresses = [];
   private $company_name;
-  private $lists = array();
+  private $lists = [];
 
-  public function __construct($first_name, $last_name, $company_name, $status,
-                              array $email_addresses, array $lists) {
+  /**
+   *
+   */
+  public function __construct($first_name,
+  $last_name,
+  $company_name,
+  $status,
+                              array $email_addresses,
+  array $lists) {
     $this->status = $status;
     $this->first_name = $first_name;
     $this->last_name = $last_name;
@@ -31,8 +40,8 @@ class Contact implements \JsonSerializable {
   /**
    * @param string $status
    *
-   * can take on any of the following values (ACTIVE, UNCONFIRMED, OPTOUT, REMOVED
-   * NON_SUBSCRIBER, VISITOR, VISITOR)
+   *   can take on any of the following values (ACTIVE, UNCONFIRMED, OPTOUT, REMOVED
+   *   NON_SUBSCRIBER, VISITOR, VISITOR)
    */
   public function setStatus($status) {
     $this->status = $status;
@@ -107,6 +116,7 @@ class Contact implements \JsonSerializable {
   public function setLists($lists) {
     $this->lists = $lists;
   }
+
   /**
    * Json Serialize.
    *
@@ -118,4 +128,5 @@ class Contact implements \JsonSerializable {
 
     return $vars;
   }
+
 }

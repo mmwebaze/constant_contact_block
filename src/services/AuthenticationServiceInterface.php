@@ -2,9 +2,19 @@
 
 namespace Drupal\constant_contact_block\services;
 
+/**
+ *
+ */
+interface AuthenticationServiceInterface {
 
-interface AuthenticationServiceInterface
-{
+  /**
+   *
+   */
   public function getAuthorizationUrl();
+
+  /**
+   *
+   */
   public function getAccessToken($code);
+
 }

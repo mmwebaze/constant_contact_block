@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * @file
+ * Contains hook implementations for Constant Contact Block.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
 /**
  * Implements hook_theme().
  */
@@ -12,4 +20,17 @@ function constant_contact_block_theme($existing, $type, $theme, $path) {
       'variables' => ['individual_lists' => NULL],
     ],
   ];
+}
+
+/**
+ * Implements hook_help().
+ */
+function constant_contact_block_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case "help.page.constant_contact_block":
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The Constant Contact Block module lets you integrate Drupal 8 with Constant Contact an email marketing platform.') . '</p>';
+      return $output;
+  }
 }

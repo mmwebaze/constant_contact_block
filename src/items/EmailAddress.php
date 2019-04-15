@@ -2,10 +2,15 @@
 
 namespace Drupal\constant_contact_block\items;
 
-
+/**
+ *
+ */
 class EmailAddress implements \JsonSerializable {
   private $email_address;
-  
+
+  /**
+   *
+   */
   public function __construct($email_address) {
     $this->email_address = $email_address;
   }
@@ -23,7 +28,6 @@ class EmailAddress implements \JsonSerializable {
   public function setEmailAddress($email_address) {
     $this->email_address = $email_address;
   }
-  
 
   /**
    * Json Serialize.
@@ -36,4 +40,5 @@ class EmailAddress implements \JsonSerializable {
 
     return $vars;
   }
+
 }
