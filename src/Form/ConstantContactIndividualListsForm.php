@@ -9,22 +9,31 @@ use Drupal\constant_contact_block\services\ConstantContactInterface;
 use Drupal\constant_contact_block\services\ConstantContactDataInterface;
 
 /**
- *
+ * Creates a form to manage individual communication settings.
  */
 class ConstantContactIndividualListsForm extends FormBase {
   /**
+   * The constant contact service.
+   *
    * @var \Drupal\constant_contact_block\services\ConstantContactInterface
    */
   protected $constantContactService;
 
   /**
+   * The constant contact data service.
+   *
    * @var \Drupal\constant_contact_block\services\ConstantContactDataInterface
    */
   protected $constantContactDataService;
   private $contact;
 
   /**
+   * ConstantContactIndividualListsForm constructor.
    *
+   * @param \Drupal\constant_contact_block\services\ConstantContactInterface $constantContactService
+   *   The constant contact service.
+   * @param \Drupal\constant_contact_block\services\ConstantContactDataInterface $constantContactDataService
+   *   The constant contact data service.
    */
   public function __construct(ConstantContactInterface $constantContactService, ConstantContactDataInterface $constantContactDataService) {
     $this->constantContactService = $constantContactService;
@@ -94,7 +103,7 @@ class ConstantContactIndividualListsForm extends FormBase {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $emailListValues = array_values($form_state->getValue('email_lists'));

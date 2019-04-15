@@ -5,37 +5,31 @@ namespace Drupal\constant_contact_block\authentication;
 use GuzzleHttp\Exception\RequestException;
 
 /**
- *
+ * The Constant Contact Auth class.
  */
 class ConstantContactAuth2 {
-  protected $redirectUri = 'http://ungo.lndo.site/constant_contact_block/getCode';
-  protected $clientId = 'g2jnh338hrwqxtzkuhxzkrqt';
-  protected $clientSecret = 't8tjrrCVhWAwgDYvguzSABdy';
-  protected $grantType = 'authorization_code';
-  protected $code = 'code';
-  protected $authRequestUrl = 'https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize';
   protected $params;
-
-  /**
-   * Displays or removes "Dont have an account? Sign up free" in the top right
-   * of the login screen.
-   *
-   * @var bool
-   */
-  protected $oauthSignup;
 
   /**
    * ConstantContactAuth2 constructor.
    *
-   * @param bool $oauthSignup
+   * @param array $params
+   *   The configuration parameters.
    */
-  public function __construct($oauthSignup = TRUE, $params = []) {
-    $this->oauthSignup = $oauthSignup;
+  public function __construct(array $params = []) {
     $this->params = $params;
   }
 
   /**
-   * @param $code
+   * Gets the access code from Constant Contact.
+   *
+   * @param string $code
+   *   The access code from constant contact.
+   * @param mixed $params
+   *   The access parameters available in module config object.
+   *
+   * @return string
+   *   The access token
    */
   public function getAccessToken($code, $params) {
     $httpClient = \Drupal::service('http_client');

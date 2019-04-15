@@ -10,7 +10,7 @@ use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a form for deleting Organisation unit entities.
+ * Provides a form for deleting a Contact List.
  *
  * @ingroup constant_contact_block
  */
@@ -20,10 +20,14 @@ class ConstantContactListDeleteForm extends ConfirmFormBase {
   protected $listName;
 
   /**
+   * The constant contact data service.
+   *
    * @var \Drupal\constant_contact_block\services\ConstantContactDataInterface
    */
   protected $constantContactDataService;
   /**
+   * The constant contact service.
+   *
    * @var \Drupal\constant_contact_block\services\ConstantContactInterface
    */
   protected $constantContactService;
@@ -32,7 +36,9 @@ class ConstantContactListDeleteForm extends ConfirmFormBase {
    * ConstantContactListDeleteForm constructor.
    *
    * @param \Drupal\constant_contact_block\services\ConstantContactDataInterface $constantContactDataService
+   *   The Constant Contact DataService.
    * @param \Drupal\constant_contact_block\services\ConstantContactInterface $constantContactService
+   *   The Constant Contact Service.
    */
   public function __construct(ConstantContactDataInterface $constantContactDataService,
                               ConstantContactInterface $constantContactService) {
@@ -85,7 +91,7 @@ class ConstantContactListDeleteForm extends ConfirmFormBase {
    */
   public function getQuestion() {
 
-    return $this->t('Do you want to delete list \'%listName\' with ID %listId', ['%listName' => $this->listName, '%listId' => $this->listId]);
+    return $this->t("Do you want to delete list '%listName' with ID %listId", ['%listName' => $this->listName, '%listId' => $this->listId]);
   }
 
   /**

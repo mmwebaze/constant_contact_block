@@ -13,22 +13,31 @@ use Drupal\Core\Ajax\CssCommand;
 use Drupal\constant_contact_block\services\ConstantContactInterface;
 
 /**
- *
+ * Provides a form for users to unsubscribe from contact lists.
  */
 class ConstantContactUnsubscribeForm extends FormBase {
   private $reasons;
   /**
+   * The constant contact service.
+   *
    * @var \Drupal\constant_contact_block\services\ConstantContactInterface
    */
   protected $constantContactService;
 
   /**
+   * The configuration object.
+   *
    * @var \Drupal\Core\Config\Config|\Drupal\Core\Config\ImmutableConfig
    */
   protected $configFactory;
 
   /**
+   * ConstantContactUnsubscribeForm constructor.
    *
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   The configuration object.
+   * @param \Drupal\constant_contact_block\services\ConstantContactInterface $constantContactService
+   *   The constant contact service.
    */
   public function __construct(ConfigFactory $configFactory, ConstantContactInterface $constantContactService) {
     $this->configFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
@@ -66,7 +75,7 @@ class ConstantContactUnsubscribeForm extends FormBase {
     ];
     $form['unsubscribe_reasons'] = [
       '#type' => 'radios',
-      '#title' => $this->t($title),
+      '#title' => $title,
       '#options' => $this->reasons,
       '#required' => TRUE,
       '#prefix' => '<div class="unsubscribe"></div>',
@@ -103,7 +112,15 @@ class ConstantContactUnsubscribeForm extends FormBase {
   }
 
   /**
+   * The ajax call that processes users other reasons for unsubscribing.
    *
+   * @param array $form
+   *   The form being processed.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The state of the form being processed.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The Ajax response.
    */
   public function otherReason(array &$form, FormStateInterface $form_state) {
     $ajaxResponse = new AjaxResponse();

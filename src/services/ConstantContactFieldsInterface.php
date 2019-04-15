@@ -3,7 +3,7 @@
 namespace Drupal\constant_contact_block\services;
 
 /**
- *
+ * Provides an interface defining the constant contact form fields.
  */
 interface ConstantContactFieldsInterface {
 

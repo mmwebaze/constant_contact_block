@@ -6,7 +6,7 @@ use Drupal\constant_contact_block\authentication\ConstantContactAuth2;
 use Drupal\Core\Config\ConfigFactory;
 
 /**
- *
+ * Implements AuthenticationServiceInterface.
  */
 class AuthenticationService implements AuthenticationServiceInterface {
   protected $redirectUri;
@@ -14,16 +14,20 @@ class AuthenticationService implements AuthenticationServiceInterface {
   protected $clientSecret;
   protected $grantType = 'authorization_code';
   protected $code = 'code';
-  protected $auth;
   protected $authRequestUrl;
 
   /**
+   * The configuration item.
+   *
    * @var \Drupal\Core\Config\ConfigFactory
    */
   protected $configFactory;
 
   /**
+   * Creates an authentication service.
    *
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   The configuration object.
    */
   public function __construct(ConfigFactory $configFactory) {
     $this->configFactory = $configFactory->getEditable('constant_contact_block.constantcontantconfig');
@@ -35,9 +39,7 @@ class AuthenticationService implements AuthenticationServiceInterface {
   }
 
   /**
-   * Get the URL at which the user can authenticate and authorize the requesting application.
-   *
-   * @return string
+   * {@inheritdoc}
    */
   public function getAuthorizationUrl() {
 
@@ -55,7 +57,7 @@ class AuthenticationService implements AuthenticationServiceInterface {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getAccessToken($code) {
 

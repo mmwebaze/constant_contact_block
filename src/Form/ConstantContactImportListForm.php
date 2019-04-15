@@ -6,7 +6,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- *
+ * Provides a form for initiating importation of lists.
  */
 class ConstantContactImportListForm extends FormBase {
 

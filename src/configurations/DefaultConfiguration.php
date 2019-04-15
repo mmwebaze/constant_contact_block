@@ -3,12 +3,15 @@
 namespace Drupal\constant_contact_block\configurations;
 
 /**
- *
+ * Default configuration messages for unsubscribe reasons.
  */
 class DefaultConfiguration {
 
   /**
+   * Gets the default unsubscribe reasons.
    *
+   * @return array
+   *   An array of default unsubscribe reasons.
    */
   public static function getUnsubscribeReasons() {
 
@@ -23,7 +26,10 @@ class DefaultConfiguration {
   }
 
   /**
+   * Gets the default unsubscribe title.
    *
+   * @return string
+   *   The default unsubscribe title.
    */
   public static function getUnsubscribeTitle() {
     $title = 'If you have a moment, please let us know why you unsubscribed:';
@@ -31,7 +37,10 @@ class DefaultConfiguration {
   }
 
   /**
+   * Gets the default unsubscribe message.
    *
+   * @return string
+   *   The default unsubscribe message.
    */
   public static function getUnsubscribeMessage() {
 

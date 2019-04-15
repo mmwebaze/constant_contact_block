@@ -5,12 +5,12 @@ namespace Drupal\constant_contact_block\services;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- *
+ * Implements the ConstantContactFieldsInterface.
  */
 class ConstantContactFieldsManager implements ConstantContactFieldsInterface {
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function loadFields() {
     $module_path = drupal_get_path('module', 'constant_contact_block');

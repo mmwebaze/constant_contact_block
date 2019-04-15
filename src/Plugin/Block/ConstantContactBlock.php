@@ -47,7 +47,7 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
   /**
    * The form builder service.
    *
-   * @var \Drupal\Core\Form\FormBuilder;
+   * @var \Drupal\Core\Form\FormBuilder
    */
   protected $formBuilderService;
   protected $contactLists;
@@ -69,13 +69,23 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
    * ConstantContactBlock constructor.
    *
    * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
-   * @param ConstantContactInterface $constantContactManager
-   * @param ConstantContactDataInterface $constantContactDataService
-   * @param ConfigFactory $configFactory
-   * @param Messenger $messenger
-   * @param ConstantContactFieldsInterface $constantContactFieldService
+   *   The plugin configuration.
+   * @param string $plugin_id
+   *   The plugin id.
+   * @param mixed $plugin_definition
+   *   Plugin definitions.
+   * @param \Drupal\constant_contact_block\services\ConstantContactInterface $constantContactManager
+   *   The constant contant manager service.
+   * @param \Drupal\constant_contact_block\services\ConstantContactDataInterface $constantContactDataService
+   *   The constant contanct data service.
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   The configuration object.
+   * @param \Drupal\Core\Messenger\Messenger $messenger
+   *   The messenger service.
+   * @param \Drupal\constant_contact_block\services\ConstantContactFieldsInterface $constantContactFieldService
+   *   The constantContactFieldService.
+   * @param \Drupal\Core\Form\FormBuilder $formBuilderService
+   *   The form builder service.
    */
   public function __construct(array $configuration,
   $plugin_id,
@@ -84,7 +94,8 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
                                 ConstantContactDataInterface $constantContactDataService,
   ConfigFactory $configFactory,
                                 Messenger $messenger,
-  ConstantContactFieldsInterface $constantContactFieldService, FormBuilder $formBuilderService) {
+  ConstantContactFieldsInterface $constantContactFieldService,
+  FormBuilder $formBuilderService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->constantContactManager = $constantContactManager;
     $this->constantContactDataService = $constantContactDataService;
@@ -149,7 +160,7 @@ class ConstantContactBlock extends BlockBase implements BlockPluginInterface, Co
 
     foreach ($fields as $field => $value) {
       $form[$field] = [
-        '#title' => $this->t($value['title']),
+        '#title' => $value['title'],
         '#type' => 'checkbox',
         '#default_value' => in_array($field, $selectedFields) ? 1 : 0,
       ];

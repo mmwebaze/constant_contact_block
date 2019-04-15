@@ -23,34 +23,40 @@ class ConstantContactForm extends FormBase {
    * @var \Drupal\Core\Messenger\Messenger
    */
   protected $messenger;
-    /**
-     * @var ConstantContactFieldsInterface
-     */
+  /**
+   * The constant contact field service.
+   *
+   * @var \Drupal\constant_contact_block\services\ConstantContactFieldsInterface
+   */
   protected $constantContactFieldService;
-    /**
-     * @var ConstantContactInterface
-     */
+  /**
+   * The constant contact manager service.
+   *
+   * @var \Drupal\constant_contact_block\services\ConstantContactInterface
+   */
   protected $constantContactManager;
   private $fields = [];
-    /**
-     * The form id.
-     *
-     * @var string
-     */
+  /**
+   * The form id.
+   *
+   * @var string
+   */
   private $formId;
 
-    /**
-     * Constructs a new ConstantContactForm.
-     *
-     * @param $formId
-     * @param array $fields
-     * @param \Drupal\Core\Messenger\Messenger $messenger
-     *  The messenger service.
-     * @param \Drupal\constant_contact_block\services\ConstantContactFieldsInterface $constantContactFieldService
-     *  The constantContactFieldService
-     * @param \Drupal\constant_contact_bloc.k\services\ConstantContactInterface $constantContactManager
-     *  The constantContactManager service.
-     */
+  /**
+   * Constructs a new ConstantContactForm.
+   *
+   * @param string $formId
+   *   The form id.
+   * @param array $fields
+   *   The fields to add to the form.
+   * @param \Drupal\Core\Messenger\Messenger $messenger
+   *   The messenger service.
+   * @param \Drupal\constant_contact_block\services\ConstantContactFieldsInterface $constantContactFieldService
+   *   The constantContactFieldService.
+   * @param \Drupal\constant_contact_block\services\ConstantContactInterface $constantContactManager
+   *   The constantContactManager service.
+   */
   public function __construct($formId, array $fields, Messenger $messenger, ConstantContactFieldsInterface $constantContactFieldService, ConstantContactInterface $constantContactManager) {
     $this->formId = $formId;
     $this->fields = $fields;

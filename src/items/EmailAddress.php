@@ -3,30 +3,44 @@
 namespace Drupal\constant_contact_block\items;
 
 /**
- *
+ * Defines a constant contact email address.
  */
 class EmailAddress implements \JsonSerializable {
+  /**
+   * The email address.
+   *
+   * @var string
+   */
   private $email_address;
 
   /**
+   * EmailAddress constructor.
    *
+   * @param string $emailAddress
+   *   The email address.
    */
-  public function __construct($email_address) {
-    $this->email_address = $email_address;
+  public function __construct($emailAddress) {
+    $this->email_address = $emailAddress;
   }
 
   /**
+   * Gets the email address.
+   *
    * @return string
+   *   The email address.
    */
   public function getEmailAddress() {
     return $this->email_address;
   }
 
   /**
-   * @param string $email_address
+   * Sets the email address.
+   *
+   * @param string $emailAddress
+   *   The email address to be set.
    */
-  public function setEmailAddress($email_address) {
-    $this->email_address = $email_address;
+  public function setEmailAddress($emailAddress) {
+    $this->email_address = $emailAddress;
   }
 
   /**

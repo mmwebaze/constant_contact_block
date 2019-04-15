@@ -5,7 +5,7 @@ namespace Drupal\constant_contact_block\services;
 use Drupal\Core\Database\Driver\mysql\Connection;
 
 /**
- * Class ConstantContactDataManager.
+ * Implements the ConstantContactDataInterface.
  *
  * @package Drupal\constant_contact_block\services
  */
@@ -21,13 +21,14 @@ class ConstantContactDataManager implements ConstantContactDataInterface {
    * ConstantContactDataManager constructor.
    *
    * @param \Drupal\Core\Database\Driver\mysql\Connection $connection
+   *   The connection service.
    */
   public function __construct(Connection $connection) {
     $this->connection = $connection;
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function addContactList($values) {
     if (isset($values)) {
@@ -49,7 +50,7 @@ class ConstantContactDataManager implements ConstantContactDataInterface {
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function getContactLists() {
     $query = $this->connection->select('constant_contact_lists', 'ccl')
@@ -60,7 +61,7 @@ class ConstantContactDataManager implements ConstantContactDataInterface {
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function deleteList($listId) {
     $query = $this->connection->delete('constant_contact_lists')
@@ -69,14 +70,14 @@ class ConstantContactDataManager implements ConstantContactDataInterface {
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function deleteTable($table) {
     $this->connection->truncate($table)->execute();
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function getContactList($listId) {
     $results = $this->connection->select('constant_contact_lists', 'ccl')
