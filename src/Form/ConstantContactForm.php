@@ -120,7 +120,7 @@ class ConstantContactForm extends FormBase {
     foreach ($selectedLists as $selectedList) {
       if ($selectedList != 0) {
         $listObj = new \stdClass();
-        $listObj->id = $selectedList;
+        $listObj->id = (string) $selectedList;
         array_push($lists, $listObj);
       }
     }
