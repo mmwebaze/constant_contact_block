@@ -78,12 +78,13 @@ class ConstantContactManager implements ConstantContactInterface {
           'body' => json_encode($contact),
           'headers' => $this->header['headers'],
         ]);
+
       return $response->getBody()->getContents();
     }
     catch (RequestException $e) {
       // Log error $e.
       $this->logger->error($e->getMessage());
-      return $this;
+      return NULL;
     }
   }
 
@@ -99,7 +100,7 @@ class ConstantContactManager implements ConstantContactInterface {
     catch (RequestException $e) {
       // Log error $e.
       $this->logger->error($e->getMessage());
-      return;
+      return NULL;
     }
   }
 
@@ -114,7 +115,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       $this->logger->error($e->getMessage());
-      return;
+      return NULL;
     }
   }
 
@@ -130,7 +131,7 @@ class ConstantContactManager implements ConstantContactInterface {
     catch (RequestException $e) {
       // Log error $e.
       $this->logger->error($e->getMessage());
-      return;
+        return NULL;
     }
   }
 
@@ -157,7 +158,7 @@ class ConstantContactManager implements ConstantContactInterface {
     catch (RequestException $e) {
       // Log error $e.
       $this->logger->error($e->getMessage());
-      return;
+        return NULL;
     }
   }
 
@@ -209,7 +210,7 @@ class ConstantContactManager implements ConstantContactInterface {
     }
     catch (RequestException $e) {
       $this->logger->error($e->getMessage());
-      return;
+        return NULL;
     }
   }
 
@@ -227,12 +228,17 @@ class ConstantContactManager implements ConstantContactInterface {
         'Content-Type' => 'application/json',
         'headers' => $headers,
       ]);
-      $responseObj = json_decode($response->getBody()->getContents())->results[0];
-      return $responseObj;
+      $responseObjArray = json_decode($response->getBody()->getContents())->results;
+
+      if (count($responseObjArray) == 0){
+          return $responseObjArray;
+      }
+
+      return $responseObjArray[0];
     }
     catch (RequestException $e) {
       $this->logger->error($e->getMessage());
-      return;
+        return NULL;
     }
   }
 

@@ -135,18 +135,25 @@ class ConstantContactForm extends FormBase {
 
     $checkContact = $this->constantContactManager->checkContactExistsByEmail($email);
     $message = NULL;
-    if (empty($checkContact)) {
-      $message = $this->constantContactManager->addContact($contact);
 
+    if (is_null($checkContact)){
+        $this->messenger->addMessage('Error adding or updating email lists');
     }
-    else {
-      $message = $this->constantContactManager->updateContant($checkContact, $lists);
-    }
-    if (count(json_decode($message))) {
-      $this->messenger->addMessage('You have been added to the email lists');
-    }
-    else {
-      $this->messenger->addMessage('Error adding you to email lists');
+    else{
+        if (empty($checkContact)) {
+            $message = $this->constantContactManager->addContact($contact);
+        }
+        else {
+            $message = $this->constantContactManager->updateContant($checkContact, $lists);
+        }
+        if (is_null($message)){
+            $this->messenger->addMessage('Error adding you to email lists');
+        }
+        else{
+            if (!empty($message)) {
+                $this->messenger->addMessage('You have been added to the email lists');
+            }
+        }
     }
   }
 
