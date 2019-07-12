@@ -117,13 +117,14 @@ class ConstantContactForm extends FormBase {
     $selectedLists = $form_state->getValue('email_lists');
 
     $lists = [];
-    foreach ($selectedLists as $selectedList) {
-      if ($selectedList != 0) {
+    foreach ($selectedLists as $selectedList => $value) {
+      if ($value != 0) {
         $listObj = new \stdClass();
         $listObj->id = (string) $selectedList;
         array_push($lists, $listObj);
       }
     }
+
     $fields = $this->fields['fields'];
     $submittedFields = [];
     foreach ($fields as $field) {
